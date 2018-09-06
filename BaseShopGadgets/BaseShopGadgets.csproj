@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{301C07A5-D312-40D4-BFF9-3FEEB86D5584}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>BaseShopGadgets</RootNamespace>
+    <AssemblyName>BaseShopGadgets</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assortment.cs" />
+    <Compile Include="BusinessLogicCategory.cs" />
+    <Compile Include="BusinessLogicDelivery.cs" />
+    <Compile Include="BusinessLogicDevice.cs" />
+    <Compile Include="BusinessLogicProvider.cs" />
+    <Compile Include="BusinessLogicSale.cs" />
+    <Compile Include="BusinessLogicStorage.cs" />
+    <Compile Include="DeliveryesArchiv.cs" />
+    <Compile Include="Device.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="Discount.cs" />
+    <Compile Include="BusinessLogicDiscount.cs" />
+    <Compile Include="Expansion.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCategoryes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCategoryes.Designer.cs">
+      <DependentUpon>FormCategoryes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDelivery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDelivery.Designer.cs">
+      <DependentUpon>FormDelivery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDiscounts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGoods.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGoods.Designer.cs">
+      <DependentUpon>FormGoods.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGoodsChange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGoodsChange.Designer.cs">
+      <DependentUpon>FormGoodsChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormNewDevice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNewDevice.Designer.cs">
+      <DependentUpon>FormNewDevice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormNewProvider.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNewProvider.Designer.cs">
+      <DependentUpon>FormNewProvider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormNewStorage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNewVipClient.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNewVipClient.Designer.cs">
+      <DependentUpon>FormNewVipClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormProviderChange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormProviderChange.Designer.cs">
+      <DependentUpon>FormProviderChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormProviders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSale.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSale.Designer.cs">
+      <DependentUpon>FormSale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormStorageChang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStorageChang.Designer.cs">
+      <DependentUpon>FormStorageChang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormStorages.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormVipClients.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormVipClients.Designer.cs">
+      <DependentUpon>FormVipClients.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormVipClientsChange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormVipClientsChange.Designer.cs">
+      <DependentUpon>FormVipClientsChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IdEntity.cs" />
+    <Compile Include="Migrations\201804121513018_InitialCreate.cs" />
+    <Compile Include="Migrations\201804121513018_InitialCreate.Designer.cs">
+      <DependentUpon>201804121513018_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804251414020_MigrateDB.cs" />
+    <Compile Include="Migrations\201804251414020_MigrateDB.Designer.cs">
+      <DependentUpon>201804251414020_MigrateDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804251433032_Migrate_1_DB.cs" />
+    <Compile Include="Migrations\201804251433032_Migrate_1_DB.Designer.cs">
+      <DependentUpon>201804251433032_Migrate_1_DB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805161635428_Migrate_2.cs" />
+    <Compile Include="Migrations\201805161635428_Migrate_2.Designer.cs">
+      <DependentUpon>201805161635428_Migrate_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805161645139_Migrate_3.cs" />
+    <Compile Include="Migrations\201805161645139_Migrate_3.Designer.cs">
+      <DependentUpon>201805161645139_Migrate_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805161653492_Migrate_4.cs" />
+    <Compile Include="Migrations\201805161653492_Migrate_4.Designer.cs">
+      <DependentUpon>201805161653492_Migrate_4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805171746182_Migrate_5.cs" />
+    <Compile Include="Migrations\201805171746182_Migrate_5.Designer.cs">
+      <DependentUpon>201805171746182_Migrate_5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805171804516_Migrate_6.cs" />
+    <Compile Include="Migrations\201805171804516_Migrate_6.Designer.cs">
+      <DependentUpon>201805171804516_Migrate_6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805171808059_Migrate_7.cs" />
+    <Compile Include="Migrations\201805171808059_Migrate_7.Designer.cs">
+      <DependentUpon>201805171808059_Migrate_7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805172054042_Migrate_61.cs" />
+    <Compile Include="Migrations\201805172054042_Migrate_61.Designer.cs">
+      <DependentUpon>201805172054042_Migrate_61.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805172057316_Migrate_8.cs" />
+    <Compile Include="Migrations\201805172057316_Migrate_8.Designer.cs">
+      <DependentUpon>201805172057316_Migrate_8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805201603456_Migrate_9.cs" />
+    <Compile Include="Migrations\201805201603456_Migrate_9.Designer.cs">
+      <DependentUpon>201805201603456_Migrate_9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805202027151_Migrate_10.cs" />
+    <Compile Include="Migrations\201805202027151_Migrate_10.Designer.cs">
+      <DependentUpon>201805202027151_Migrate_10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805211925117_Migrate_11.cs" />
+    <Compile Include="Migrations\201805211925117_Migrate_11.Designer.cs">
+      <DependentUpon>201805211925117_Migrate_11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805211928311_Migrate_12.cs" />
+    <Compile Include="Migrations\201805211928311_Migrate_12.Designer.cs">
+      <DependentUpon>201805211928311_Migrate_12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805282050066_Migrate_13.cs" />
+    <Compile Include="Migrations\201805282050066_Migrate_13.Designer.cs">
+      <DependentUpon>201805282050066_Migrate_13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805301643304_Migrate_14.cs" />
+    <Compile Include="Migrations\201805301643304_Migrate_14.Designer.cs">
+      <DependentUpon>201805301643304_Migrate_14.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805301647531_Migrate_15.cs" />
+    <Compile Include="Migrations\201805301647531_Migrate_15.Designer.cs">
+      <DependentUpon>201805301647531_Migrate_15.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806021351139_Migrate_16.cs" />
+    <Compile Include="Migrations\201806021351139_Migrate_16.Designer.cs">
+      <DependentUpon>201806021351139_Migrate_16.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806021404420_Migrate_17.cs" />
+    <Compile Include="Migrations\201806021404420_Migrate_17.Designer.cs">
+      <DependentUpon>201806021404420_Migrate_17.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806021410543_Migrate_18.cs" />
+    <Compile Include="Migrations\201806021410543_Migrate_18.Designer.cs">
+      <DependentUpon>201806021410543_Migrate_18.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807051540352_Migrate_19.cs" />
+    <Compile Include="Migrations\201807051540352_Migrate_19.Designer.cs">
+      <DependentUpon>201807051540352_Migrate_19.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="ModelBaseShop.cs" />
+    <Compile Include="ModelBaseShopDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelBaseShopDataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ModelBaseShopDataSet11.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelBaseShopDataSet11.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provider.cs" />
+    <Compile Include="SalesArchiv.cs" />
+    <Compile Include="Storage.cs" />
+    <Compile Include="TempRepozit.cs" />
+    <Compile Include="VipClient.cs" />
+    <Compile Include="BusinessLogicVipClient.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCategoryes.resx">
+      <DependentUpon>FormCategoryes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDelivery.resx">
+      <DependentUpon>FormDelivery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDiscounts.resx">
+      <DependentUpon>FormDiscounts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGoods.resx">
+      <DependentUpon>FormGoods.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGoodsChange.resx">
+      <DependentUpon>FormGoodsChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNewDevice.resx">
+      <DependentUpon>FormNewDevice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNewProvider.resx">
+      <DependentUpon>FormNewProvider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNewStorage.resx">
+      <DependentUpon>FormNewStorage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNewVipClient.resx">
+      <DependentUpon>FormNewVipClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormProviderChange.resx">
+      <DependentUpon>FormProviderChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormProviders.resx">
+      <DependentUpon>FormProviders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSale.resx">
+      <DependentUpon>FormSale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStorageChang.resx">
+      <DependentUpon>FormStorageChang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStorages.resx">
+      <DependentUpon>FormStorages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormVipClients.resx">
+      <DependentUpon>FormVipClients.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormVipClientsChange.resx">
+      <DependentUpon>FormVipClientsChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804121513018_InitialCreate.resx">
+      <DependentUpon>201804121513018_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804251414020_MigrateDB.resx">
+      <DependentUpon>201804251414020_MigrateDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804251433032_Migrate_1_DB.resx">
+      <DependentUpon>201804251433032_Migrate_1_DB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805161635428_Migrate_2.resx">
+      <DependentUpon>201805161635428_Migrate_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805161645139_Migrate_3.resx">
+      <DependentUpon>201805161645139_Migrate_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805161653492_Migrate_4.resx">
+      <DependentUpon>201805161653492_Migrate_4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805171746182_Migrate_5.resx">
+      <DependentUpon>201805171746182_Migrate_5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805171804516_Migrate_6.resx">
+      <DependentUpon>201805171804516_Migrate_6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805171808059_Migrate_7.resx">
+      <DependentUpon>201805171808059_Migrate_7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805172054042_Migrate_61.resx">
+      <DependentUpon>201805172054042_Migrate_61.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805172057316_Migrate_8.resx">
+      <DependentUpon>201805172057316_Migrate_8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805201603456_Migrate_9.resx">
+      <DependentUpon>201805201603456_Migrate_9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805202027151_Migrate_10.resx">
+      <DependentUpon>201805202027151_Migrate_10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805211925117_Migrate_11.resx">
+      <DependentUpon>201805211925117_Migrate_11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805211928311_Migrate_12.resx">
+      <DependentUpon>201805211928311_Migrate_12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805282050066_Migrate_13.resx">
+      <DependentUpon>201805282050066_Migrate_13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805301643304_Migrate_14.resx">
+      <DependentUpon>201805301643304_Migrate_14.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805301647531_Migrate_15.resx">
+      <DependentUpon>201805301647531_Migrate_15.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806021351139_Migrate_16.resx">
+      <DependentUpon>201806021351139_Migrate_16.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806021404420_Migrate_17.resx">
+      <DependentUpon>201806021404420_Migrate_17.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806021410543_Migrate_18.resx">
+      <DependentUpon>201806021410543_Migrate_18.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807051540352_Migrate_19.resx">
+      <DependentUpon>201807051540352_Migrate_19.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="ModelBaseShopDataSet1.xsc">
+      <DependentUpon>ModelBaseShopDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="ModelBaseShopDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ModelBaseShopDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ModelBaseShopDataSet1.xss">
+      <DependentUpon>ModelBaseShopDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="ModelBaseShopDataSet11.xsc">
+      <DependentUpon>ModelBaseShopDataSet11.xsd</DependentUpon>
+    </None>
+    <None Include="ModelBaseShopDataSet11.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ModelBaseShopDataSet11.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ModelBaseShopDataSet11.xss">
+      <DependentUpon>ModelBaseShopDataSet11.xsd</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
