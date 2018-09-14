@@ -67,7 +67,12 @@ namespace BaseShopGadgets
 
         public void _Delete_VipClients_From_Repozitory()
         {
-            Form1.tempRepozit.ListVipClients.RemoveAt(number);
+            for (int i = 0; i < Form1.tempRepozit.ListVipClients.Count; i++)
+            {
+                if (Form1.tempRepozit.ListVipClients[i].Id == number)
+                    Form1.tempRepozit.ListVipClients.RemoveAt(i);
+            }
+            //Form1.tempRepozit.ListVipClients.RemoveAt(number);
         }
 
         private void dataGridViewVipClients_RowEnter(object sender, DataGridViewCellEventArgs e)
@@ -92,7 +97,19 @@ namespace BaseShopGadgets
                 var discountTemp = discountIQuer.Where(d => d.Id == vipClt.IdDisk).ToList();
                 discount = discountTemp.Single();
 
-                dataGridViewVipClients.Rows.Add(vipClt.Id, dataGridViewVipClients.RowCount, vipClt.Name, vipClt.LastName, vipClt.Passport, discount.Percent);
+                dataGridViewVipClients.Rows.Add(vipClt.Id, dataGridViewVipClients.RowCount+1, vipClt.Name, vipClt.LastName, vipClt.Passport, discount.Percent);
+            }
+
+            foreach (VipClient vipClt in vipClientIQuer)
+            {
+                Form1.tempRepozit.ListVipClients.Add(new VipClient()
+                {
+                    Id = vipClt.Id,
+                    Name = vipClt.Name,
+                    LastName = vipClt.LastName,
+                    Passport = vipClt.Passport,
+                    IdDisk = vipClt.IdDisk
+                });
             }
 
             this.businessLogicVipClient.DeleteVipClientFromBase += _Delete_VipClients_From_Base;

@@ -36,7 +36,7 @@ namespace BaseShopGadgets
         public void _Change_VipClient_In_Base()
         {
             discountIQuer = Form1.db.TableDiscounts;
-            var tempDiscount = discountIQuer.Where(d => string.Equals(d.Id, this.comboBoxDiscountCh.Text));
+            var tempDiscount = discountIQuer.Where(d => string.Equals(d.Name, this.comboBoxDiscountCh.Text));
             discount = tempDiscount.Single();
 
             number = Convert.ToInt32(Form1.formVipClients.dataGridViewVipClients.CurrentRow.Cells[0].Value);
@@ -59,10 +59,14 @@ namespace BaseShopGadgets
 
         public void _Change_VipClient_In_Repozitory()
         {
-            Form1.tempRepozit.ListVipClients[Form1.formVipClients.row].Name = this.textBoxNameCh.Text;
-            Form1.tempRepozit.ListVipClients[Form1.formVipClients.row].LastName = this.textBoxLastNameCh.Text;
-            Form1.tempRepozit.ListVipClients[Form1.formVipClients.row].Passport = this.textBoxPassportCh.Text;
-            Form1.tempRepozit.ListVipClients[Form1.formVipClients.row].IdDisk = discount.Id;
+            var temp = Form1.tempRepozit.ListVipClients.Where(d => d.Id == number).ToList();
+            VipClient tempVipClient = temp.Single();
+            int indexEl = Form1.tempRepozit.ListVipClients.IndexOf(tempVipClient);
+
+            Form1.tempRepozit.ListVipClients[indexEl].Name = this.textBoxNameCh.Text;
+            Form1.tempRepozit.ListVipClients[indexEl].LastName = this.textBoxLastNameCh.Text;
+            Form1.tempRepozit.ListVipClients[indexEl].Passport = this.textBoxPassportCh.Text;
+            Form1.tempRepozit.ListVipClients[indexEl].IdDisk = discount.Id;
         }
 
         private void FormVipClientsChange_Load(object sender, EventArgs e)

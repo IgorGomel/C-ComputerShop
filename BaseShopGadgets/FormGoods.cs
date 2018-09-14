@@ -50,7 +50,7 @@ namespace BaseShopGadgets
                 var categTemp = categoryIQuer.Where(d => d.Id == dev.IdCategory).ToList();
                 category = categTemp.Single();
 
-                dataGridViewGoods.Rows.Add(dataGridViewGoods.RowCount, dev.Id, dev.Name, category.Name, dev.Descript, dev.Price);
+                dataGridViewGoods.Rows.Add(dataGridViewGoods.RowCount+1, dev.Id, dev.Name, category.Name, dev.Descript, dev.Price);
             }
 
 
@@ -119,7 +119,12 @@ namespace BaseShopGadgets
 
         public void _Delete_Device_From_Repository()
         {
-            Form1.tempRepozit.ListDevices.RemoveAt(row);
+            for (int i = 0; i < Form1.tempRepozit.ListDevices.Count; i++)
+            {
+                if (Form1.tempRepozit.ListDevices[i].Id == number)
+                    Form1.tempRepozit.ListDevices.RemoveAt(i);
+            }
+            //Form1.tempRepozit.ListDevices.RemoveAt(row);
         }
 
        

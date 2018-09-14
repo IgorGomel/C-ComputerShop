@@ -269,7 +269,7 @@
             this.comboBoxCategory.Size = new System.Drawing.Size(148, 21);
             this.comboBoxCategory.TabIndex = 17;
             this.comboBoxCategory.ValueMember = "Name";
-            this.comboBoxCategory.SelectedValueChanged += new System.EventHandler(this.comboBoxCategory_SelectedValueChanged);
+            //this.comboBoxCategory.SelectedValueChanged += new System.EventHandler(this.comboBoxCategory_SelectedValueChanged);
             // 
             // categoriesBindingSource1
             // 

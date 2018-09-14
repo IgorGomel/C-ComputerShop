@@ -34,20 +34,20 @@ namespace BaseShopGadgets
         {
             if (DeleteCategoryFromBase != null)
                 DeleteCategoryFromBase();
-            if (DeleteCategoryFromDataGridView != null)
-                DeleteCategoryFromDataGridView();
             if (DeleteCategoryFromRepozitory != null)
                 DeleteCategoryFromRepozitory();
+            if (DeleteCategoryFromDataGridView != null)
+                DeleteCategoryFromDataGridView();
         }
 
         public void ChangeCategory()
         {
-            if (ChangeCategoryInDataGridView != null)
-                ChangeCategoryInDataGridView();
             if (ChangeCategoryInBase != null)
                 ChangeCategoryInBase();
             if (ChangeCategoryInRepozitory != null)
                 ChangeCategoryInRepozitory();
+            if (ChangeCategoryInDataGridView != null)
+                ChangeCategoryInDataGridView();
         }
     }
 }

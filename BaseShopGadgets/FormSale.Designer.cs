@@ -92,7 +92,6 @@
             this.comboBoxCategory.TabIndex = 0;
             this.comboBoxCategory.ValueMember = "Name";
             this.comboBoxCategory.SelectedIndexChanged += new System.EventHandler(this.comboBoxCategory_SelectedIndexChanged);
-            this.comboBoxCategory.SelectedValueChanged += new System.EventHandler(this.comboBoxCategory_SelectedValueChanged);
             // 
             // categoriesBindingSource
             // 
@@ -219,6 +218,7 @@
             this.btnClose.TabIndex = 11;
             this.btnClose.Text = "Закрити";
             this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // groupBox1
             // 
@@ -232,6 +232,7 @@
             // 
             // dataGridViewSales
             // 
+            this.dataGridViewSales.AllowUserToAddRows = false;
             this.dataGridViewSales.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewSales.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,

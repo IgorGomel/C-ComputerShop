@@ -55,6 +55,7 @@ namespace BaseShopGadgets
         public FormSale()
         {
             InitializeComponent();
+
             foreach (Device deviceTemp in devIQuerForTextBox)
                 source.Add(deviceTemp.Name);
             textBoxGoods.AutoCompleteCustomSource = source;
@@ -62,30 +63,44 @@ namespace BaseShopGadgets
 
         private void btnSale_Click(object sender, EventArgs e)
         {
+            busnLogicSale.AddSaleToBaseAssortment += _Add_Sale_To_BaseAssortment;
+            busnLogicSale.AddSaleToBaseSalesArchiv += _Add_Sale_To_BaseSalesArchiv;
+            busnLogicSale.AddSaleToDataGridViewArchiv += _Add_Sale_To_DataGridViewArchiv;
+            busnLogicSale.AddSaleToDataGridViewMain += _Add_Sale_To_DataGridViewMain;
+            busnLogicSale.AddSaleToRepozitoryAssortment += _Add_Sale_To_RepozitoryAssortment;
+
+
             busnLogicSale.AddSale();
+
+            busnLogicSale.AddSaleToBaseAssortment -= _Add_Sale_To_BaseAssortment;
+            busnLogicSale.AddSaleToBaseSalesArchiv -= _Add_Sale_To_BaseSalesArchiv;
+            busnLogicSale.AddSaleToDataGridViewArchiv -= _Add_Sale_To_DataGridViewArchiv;
+            busnLogicSale.AddSaleToDataGridViewMain -= _Add_Sale_To_DataGridViewMain;
+            busnLogicSale.AddSaleToRepozitoryAssortment -= _Add_Sale_To_RepozitoryAssortment;
+
         }
 
         private void _Add_Sale_To_BaseSalesArchiv()
         {
             saleArchIQuer = Form1.db.TableySalesArchiv;
-            deviceIQuer = Form1.db.TableDevices;
-            storageIQuer = Form1.db.TableStorages;
+            //deviceIQuer = Form1.db.TableDevices;
+            //storageIQuer = Form1.db.TableStorages;
             
 
             bool hasElements = saleArchIQuer.Any();
             if (hasElements == false)
                 Form1.db.Database.ExecuteSqlCommand("TRUNCATE TABLE dbo.SalesArchivs");
 
-            //відбираємо склад для добавлення в таблицю Assortment. Вибірку робимо з таблиці Storages...
-            //...Id елемента comboBoxStorage повинен відповідати Id поля таблиці storages
-            var stor = storageIQuer.Where(d => string.Equals(d.Id, comboBoxStorage.Text)).ToList();
-            storage = stor.Single();
+            ////відбираємо склад для добавлення в таблицю Assortment. Вибірку робимо з таблиці Storages...
+            ////...Id елемента comboBoxStorage повинен відповідати Id поля таблиці storages
+            //var stor = storageIQuer.Where(d => string.Equals(d.Id, comboBoxStorage.Text)).ToList();
+            //storage = stor.Single();
 
 
-            //відбираємо девайс для добавлення в таблицю Assortment. Вибірку робимо з таблиці Devices...
-            //...текст елемента textBoxGoods повинен бути ідентичний полю Name шуканого елемента таблицы Devices
-            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
-            device = dev.Single();
+            ////відбираємо девайс для добавлення в таблицю Assortment. Вибірку робимо з таблиці Devices...
+            ////...текст елемента textBoxGoods повинен бути ідентичний полю Name шуканого елемента таблицы Devices
+            //var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
+            //device = dev.Single();
 
             Form1.db.TableySalesArchiv.Add(new SalesArchiv()
             {
@@ -101,9 +116,34 @@ namespace BaseShopGadgets
             Form1.db.SaveChanges();
         }
 
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Close();
+            }
+            catch
+            {
+                this.Close();
+            }
+        }
+
         private void _Add_Sale_To_BaseAssortment()
         {
             assortIQuer = Form1.db.TableAssornment;
+            deviceIQuer = Form1.db.TableDevices;
+            storageIQuer = Form1.db.TableStorages;
+
+            //відбираємо склад для добавлення в таблицю Assortment. Вибірку робимо з таблиці Storages...
+            //...Id елемента comboBoxStorage повинен відповідати Id поля таблиці storages
+            var stor = storageIQuer.Where(d => string.Equals(d.Name, comboBoxStorage.Text)).ToList();
+            storage = stor.Single();
+
+
+            //відбираємо девайс для добавлення в таблицю Assortment. Вибірку робимо з таблиці Devices...
+            //...текст елемента textBoxGoods повинен бути ідентичний полю Name шуканого елемента таблицы Devices
+            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
+            device = dev.Single();
 
             //проходимось по таблиці асортименту
             foreach (Assortment assort in assortIQuer)
@@ -122,7 +162,7 @@ namespace BaseShopGadgets
 
         private void _Add_Sale_To_DataGridViewMain()
         {
-            for (int i = 0; i < dataGridViewSales.RowCount; i++)
+            for (int i = 0; i < Program.ff.MainDataGridView.RowCount; i++)
             {
                 if(String.Equals(Program.ff.MainDataGridView.Rows[i].Cells[1].Value, textBoxGoods.Text) & String.Equals(Program.ff.MainDataGridView.Rows[i].Cells[3].Value, comboBoxStorage.Text))
                     Program.ff.MainDataGridView.Rows[i].Cells[5].Value = Convert.ToInt32(Program.ff.MainDataGridView.Rows[i].Cells[5].Value) - Convert.ToInt32(numericUpDownAmount.Value);
@@ -149,11 +189,24 @@ namespace BaseShopGadgets
 
         private void comboBoxCategory_SelectedValueChanged(object sender, EventArgs e)
         {
-           
+            //categoryIQuer = Form1.db.TableCategoryes;
+            //var tempCateg = categoryIQuer.Where(d => string.Equals(d.Name, comboBoxCategory.Text));
+            //category = tempCateg.Single();
+
+            //foreach (Device deviceTemp in devIQuerForTextBox)
+            //{
+            //    if (deviceTemp.IdCategory == category.Id)
+            //        sourseForBaseRepoz.Add(deviceTemp.Name);
+            //}
+
+            //textBoxGoods.AutoCompleteCustomSource = sourseForBaseRepoz;
         }
+
+
 
         private void changeComboBoxValue(Object sender, EventArgs e)
         {
+            textBoxGoods.AutoCompleteCustomSource.Clear();
             categoryIQuer = Form1.db.TableCategoryes;
 
             foreach (Device deviceTemp in devIQuerForTextBox)
@@ -170,11 +223,13 @@ namespace BaseShopGadgets
 
         private void FormSale_Load(object sender, EventArgs e)
         {
+            //this.comboBoxCategory.SelectedValueChanged += changeComboBoxValue;
             // TODO: данная строка кода позволяет загрузить данные в таблицу "modelBaseShopDataSet.Storages". При необходимости она может быть перемещена или удалена.
             this.storagesTableAdapter.Fill(this.modelBaseShopDataSet.Storages);
             // TODO: данная строка кода позволяет загрузить данные в таблицу "modelBaseShopDataSet1.Categories". При необходимости она может быть перемещена или удалена.
             this.categoriesTableAdapter.Fill(this.modelBaseShopDataSet1.Categories);
-            comboBoxCategory.SelectedValue = null;
+
+            //comboBoxCategory.SelectedValue = null;
             this.comboBoxCategory.SelectedValueChanged += changeComboBoxValue;
 
             saleArchIQuer = Form1.db.TableySalesArchiv;
@@ -191,36 +246,29 @@ namespace BaseShopGadgets
                 var categ = categoryIQuer.Where(d => d.Id == device.IdCategory).ToList();
                 category = categ.Single();
 
-                dataGridViewSales.Rows.Add(sale.Id, dataGridViewSales.RowCount, device.Name, storage.Name, device.Descript, sale.Amount, sale.Price, sale.Date, category.Name);
-            }
+                dataGridViewSales.Rows.Add(sale.Id, dataGridViewSales.RowCount+1, device.Name, storage.Name, device.Descript, sale.Amount, sale.Price, sale.Date, category.Name);
+            }            
+        }
 
-            busnLogicSale.AddSaleToBaseAssortment += _Add_Sale_To_BaseAssortment;
-            busnLogicSale.AddSaleToBaseSalesArchiv += _Add_Sale_To_BaseSalesArchiv;
-            busnLogicSale.AddSaleToDataGridViewArchiv += _Add_Sale_To_DataGridViewArchiv;
-            busnLogicSale.AddSaleToDataGridViewMain += _Add_Sale_To_DataGridViewMain;
-            busnLogicSale.AddSaleToRepozitoryAssortment += _Add_Sale_To_RepozitoryAssortment;
-
+        private void btnChange_Click(object sender, EventArgs e)
+        {
             busnLogicSale.ChangeSaleInBaseAssortment += _Change_Sale_In_BaseAssortment;
             busnLogicSale.ChangeSaleInBaseSalesArchiv += _Change_Sale_In_BaseSalesArchiv;
             busnLogicSale.ChangeSaleInDataGridViewArchiv += _Change_Sale_In_DataGridViewArchiv;
             busnLogicSale.ChangeSaleInDataGridViewMain += _Change_Sale_In_DataGridViewMain;
             busnLogicSale.ChangeSaleInRepozitoryAssortment += _Change_Sale_In_RepozitoryAssortment;
 
-            busnLogicSale.DeleteSaleFromBaseSalesArchiv += _Delete_Sale_From_BaseSalesArchiv;
-            busnLogicSale.DeleteSaleFromBaseSalesAssortment += _Delete_Sale_From_BaseSalesAssortment;
-            busnLogicSale.DeleteSaleFromDataGridViewArchiv += _Delete_Sale_From_DataGridViewArchiv;
-            busnLogicSale.DeleteSaleFromDataGridViewMain += _Delete_Sale_From_DataGridViewMain;
-            busnLogicSale.DeleteSaleFromRepozitoryAssortment += _Delete_Sale_From_RepozitoryAssortment;
-
-
-        }
-
-        private void btnChange_Click(object sender, EventArgs e)
-        {
             busnLogicSale.ChangeSale();
+
+            busnLogicSale.ChangeSaleInBaseAssortment -= _Change_Sale_In_BaseAssortment;
+            busnLogicSale.ChangeSaleInBaseSalesArchiv -= _Change_Sale_In_BaseSalesArchiv;
+            busnLogicSale.ChangeSaleInDataGridViewArchiv -= _Change_Sale_In_DataGridViewArchiv;
+            busnLogicSale.ChangeSaleInDataGridViewMain -= _Change_Sale_In_DataGridViewMain;
+            busnLogicSale.ChangeSaleInRepozitoryAssortment -= _Change_Sale_In_RepozitoryAssortment;
+
         }
 
-        
+
 
         private void _Change_Sale_In_BaseAssortment()
         {
@@ -229,12 +277,12 @@ namespace BaseShopGadgets
 
             //відбираємо новий девайс
             deviceIQuer = Form1.db.TableDevices;
-            var dev = deviceIQuer.Where(d => String.Equals(d.Name, dataGridViewSales.CurrentRow.Cells[2].Value)).ToList();
+            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
             device = dev.Single();
 
             //відбираємо новий склад
             storageIQuer = Form1.db.TableStorages;
-            var stor = storageIQuer.Where(d => String.Equals(d.Name, dataGridViewSales.CurrentRow.Cells[3].Value)).ToList();
+            var stor = storageIQuer.Where(d => String.Equals(d.Name, comboBoxStorage.Text)).ToList();
             storage = stor.Single();
 
             //якщо відбулась зміна девайса 
@@ -366,41 +414,57 @@ namespace BaseShopGadgets
                 //якщо склад не змінювався
                 if (oldStorage.Id == storage.Id)
                 {
+                    var temp1 = Form1.tempRepozit.ListAssortment.Where(d => d.Id == oldRowId).ToList();
+                    Assortment tempAssort1 = temp1.Single();
+                    int indexElOldRow = Form1.tempRepozit.ListAssortment.IndexOf(tempAssort1);
+
+                    var temp2 = Form1.tempRepozit.ListAssortment.Where(d => d.Id == newRowId).ToList();
+                    Assortment tempAssort2 = temp2.Single();
+                    int indexElNewRow = Form1.tempRepozit.ListAssortment.IndexOf(tempAssort2);
+
                     if (flag == true)
                     {
                         //відбираємо рядки, в яких проведемо зміни
                         //спочатку рядок, в якому кількість девайсів потрібно збільшити:
-                        Form1.tempRepozit.ListAssortment[oldRowId - 1].Amount = Form1.tempRepozit.ListAssortment[oldRowId - 1].Amount + Convert.ToInt32(oldAmount);
+                        Form1.tempRepozit.ListAssortment[indexElOldRow].Amount = Form1.tempRepozit.ListAssortment[indexElOldRow].Amount + Convert.ToInt32(oldAmount);
                         //потім рядок, в якому кількість девайсів потрібно зменшити:
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].Amount = Form1.tempRepozit.ListAssortment[newRowId - 1].Amount - Convert.ToInt32(newAmount);
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].Amount = Form1.tempRepozit.ListAssortment[indexElNewRow].Amount - Convert.ToInt32(newAmount);
                     }
                     else
                     {
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].IdDevice = device.Id;
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].Describe = device.Descript;
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].Amount = Form1.tempRepozit.ListAssortment[oldRowId - 1].Amount + Convert.ToInt32(oldAmount) - Convert.ToInt32(newAmount);
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].Price = device.Price;
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].IdDevice = device.Id;
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].Describe = device.Descript;
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].Amount = Form1.tempRepozit.ListAssortment[indexElNewRow].Amount + Convert.ToInt32(oldAmount) - Convert.ToInt32(newAmount);
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].Price = device.Price;
                     }
                 }
                 //якщо склад змінювався
                 else
                 {
+                    var temp1 = Form1.tempRepozit.ListAssortment.Where(d => d.Id == oldRowId).ToList();
+                    Assortment tempAssort1 = temp1.Single();
+                    int indexElOldRow = Form1.tempRepozit.ListAssortment.IndexOf(tempAssort1);
+
+                    var temp2 = Form1.tempRepozit.ListAssortment.Where(d => d.Id == newRowId).ToList();
+                    Assortment tempAssort2 = temp2.Single();
+                    int indexElNewRow = Form1.tempRepozit.ListAssortment.IndexOf(tempAssort2);
+
                     if (flag == true)
                     {
                         //відбираємо рядки, в яких проведемо зміни
                         //спочатку рядок, в якому кількість девайсів потрібно збільшити:
 
-                        Form1.tempRepozit.ListAssortment[oldRowId - 1].Amount = Form1.tempRepozit.ListAssortment[oldRowId - 1].Amount + Convert.ToInt32(oldAmount);
+                        Form1.tempRepozit.ListAssortment[indexElOldRow].Amount = Form1.tempRepozit.ListAssortment[indexElOldRow].Amount + Convert.ToInt32(oldAmount);
                         //потім рядок, в якому кількість девайсів потрібно зменшити:
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].Amount = Form1.tempRepozit.ListAssortment[newRowId - 1].Amount - Convert.ToInt32(newAmount);
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].Amount = Form1.tempRepozit.ListAssortment[indexElNewRow].Amount - Convert.ToInt32(newAmount);
                     }
                     else
                     {
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].IdDevice = device.Id;
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].IdStorage = storage.Id;
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].Describe = device.Descript;
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].Amount = Form1.tempRepozit.ListAssortment[oldRowId - 1].Amount + Convert.ToInt32(oldAmount) - Convert.ToInt32(newAmount);
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].Price = device.Price;
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].IdDevice = device.Id;
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].IdStorage = storage.Id;
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].Describe = device.Descript;
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].Amount = Form1.tempRepozit.ListAssortment[indexElNewRow].Amount + Convert.ToInt32(oldAmount) - Convert.ToInt32(newAmount);
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].Price = device.Price;
                     }
                 }
             }
@@ -410,23 +474,35 @@ namespace BaseShopGadgets
                 //якщо склад не змінювався
                 if (oldStorage.Id == storage.Id)
                 {
+                    var temp2 = Form1.tempRepozit.ListAssortment.Where(d => d.Id == newRowId).ToList();
+                    Assortment tempAssort2 = temp2.Single();
+                    int indexElNewRow = Form1.tempRepozit.ListAssortment.IndexOf(tempAssort2);
+
                     //один склад - один рядок, два склади - два рядки
-                    Form1.tempRepozit.ListAssortment[newRowId - 1].Amount = Form1.tempRepozit.ListAssortment[newRowId - 1].Amount + Convert.ToInt32(oldAmount) - Convert.ToInt32(newAmount);
+                    Form1.tempRepozit.ListAssortment[indexElNewRow].Amount = Form1.tempRepozit.ListAssortment[indexElNewRow].Amount + Convert.ToInt32(oldAmount) - Convert.ToInt32(newAmount);
                 }
                 //якщо склад змінювався
                 else
                 {
+                    var temp1 = Form1.tempRepozit.ListAssortment.Where(d => d.Id == oldRowId).ToList();
+                    Assortment tempAssort1 = temp1.Single();
+                    int indexElOldRow = Form1.tempRepozit.ListAssortment.IndexOf(tempAssort1);
+
+                    var temp2 = Form1.tempRepozit.ListAssortment.Where(d => d.Id == newRowId).ToList();
+                    Assortment tempAssort2 = temp2.Single();
+                    int indexElNewRow = Form1.tempRepozit.ListAssortment.IndexOf(tempAssort2);
+
                     if (flag == true)
                     {
                         //спочатку рядок, в якому кількість девайсів потрібно збільшити:
-                        Form1.tempRepozit.ListAssortment[oldRowId - 1].Amount = Form1.tempRepozit.ListAssortment[oldRowId - 1].Amount + Convert.ToInt32(oldAmount);
+                        Form1.tempRepozit.ListAssortment[indexElOldRow].Amount = Form1.tempRepozit.ListAssortment[indexElOldRow].Amount + Convert.ToInt32(oldAmount);
                         //потім рядок, в якому кількість девайсів потрібно зменшити:
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].Amount = Form1.tempRepozit.ListAssortment[newRowId - 1].Amount - Convert.ToInt32(newAmount);
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].Amount = Form1.tempRepozit.ListAssortment[indexElNewRow].Amount - Convert.ToInt32(newAmount);
                     }
                     else
                     {
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].IdStorage = storage.Id;
-                        Form1.tempRepozit.ListAssortment[newRowId - 1].Amount = Form1.tempRepozit.ListAssortment[newRowId - 1].Amount + Convert.ToInt32(oldAmount) - Convert.ToInt32(newAmount);
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].IdStorage = storage.Id;
+                        Form1.tempRepozit.ListAssortment[indexElNewRow].Amount = Form1.tempRepozit.ListAssortment[indexElNewRow].Amount + Convert.ToInt32(oldAmount) - Convert.ToInt32(newAmount);
                     }
                 }
             }
@@ -553,19 +629,33 @@ namespace BaseShopGadgets
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            busnLogicSale.DeleteSaleFromBaseSalesArchiv += _Delete_Sale_From_BaseSalesArchiv;
+            busnLogicSale.DeleteSaleFromBaseSalesAssortment += _Delete_Sale_From_BaseSalesAssortment;
+            busnLogicSale.DeleteSaleFromDataGridViewArchiv += _Delete_Sale_From_DataGridViewArchiv;
+            busnLogicSale.DeleteSaleFromDataGridViewMain += _Delete_Sale_From_DataGridViewMain;
+            busnLogicSale.DeleteSaleFromRepozitoryAssortment += _Delete_Sale_From_RepozitoryAssortment;
+
+
             busnLogicSale.DeleteSale();
+
+            busnLogicSale.DeleteSaleFromBaseSalesArchiv -= _Delete_Sale_From_BaseSalesArchiv;
+            busnLogicSale.DeleteSaleFromBaseSalesAssortment -= _Delete_Sale_From_BaseSalesAssortment;
+            busnLogicSale.DeleteSaleFromDataGridViewArchiv -= _Delete_Sale_From_DataGridViewArchiv;
+            busnLogicSale.DeleteSaleFromDataGridViewMain -= _Delete_Sale_From_DataGridViewMain;
+            busnLogicSale.DeleteSaleFromRepozitoryAssortment -= _Delete_Sale_From_RepozitoryAssortment;
+
         }
 
         private void _Delete_Sale_From_BaseSalesAssortment()
         {
             //відбираємо девайс
             deviceIQuer = Form1.db.TableDevices;
-            var dev = deviceIQuer.Where(d => String.Equals(d.Name, dataGridViewSales.CurrentRow.Cells[2].Value)).ToList();
+            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
             device = dev.Single();
 
             ////відбираємо  склад
             storageIQuer = Form1.db.TableStorages;
-            var stor = storageIQuer.Where(d => String.Equals(d.Name, dataGridViewSales.CurrentRow.Cells[4].Value)).ToList();
+            var stor = storageIQuer.Where(d => String.Equals(d.Name, comboBoxStorage.Text)).ToList();
             storage = stor.Single();
 
             //відбираємо рядок, в якому проведемо зміни
@@ -598,7 +688,7 @@ namespace BaseShopGadgets
 
         private void _Delete_Sale_From_DataGridViewArchiv()
         {
-            //number = dataGridViewSales.CurrentRow.Index;
+            number = dataGridViewSales.CurrentRow.Index;
             dataGridViewSales.Rows.RemoveAt(number);
 
             //якщо наш рядок(number) не являється останнім... 
@@ -626,7 +716,22 @@ namespace BaseShopGadgets
 
         private void comboBoxCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //categoryIQuer = Form1.db.TableCategoryes;
+            //var tempCateg = categoryIQuer.Where(d => string.Equals(d.Name, comboBoxCategory.Text));
+            //category = tempCateg.Single();
 
+            //foreach (Device deviceTemp in devIQuerForTextBox)
+            //{
+            //    if (deviceTemp.IdCategory == category.Id)
+            //        sourseForBaseRepoz.Add(deviceTemp.Name);
+            //}
+
+            //textBoxGoods.AutoCompleteCustomSource = sourseForBaseRepoz;
         }
+
+        //private void btnClose_Click(object sender, EventArgs e)
+        //{
+        //    this.Close();
+        //}
     }
 }

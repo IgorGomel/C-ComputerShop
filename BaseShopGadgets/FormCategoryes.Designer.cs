@@ -31,12 +31,12 @@
             this.textBoxCategory = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridViewCategory = new System.Windows.Forms.DataGridView();
-            this.btnAddCategory = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnChange = new System.Windows.Forms.Button();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.N = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Categor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnAddCategory = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnChange = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCategory)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,6 +58,7 @@
             // 
             // dataGridViewCategory
             // 
+            this.dataGridViewCategory.AllowUserToAddRows = false;
             this.dataGridViewCategory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewCategory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -68,6 +69,26 @@
             this.dataGridViewCategory.Size = new System.Drawing.Size(234, 354);
             this.dataGridViewCategory.TabIndex = 2;
             this.dataGridViewCategory.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCategory_RowEnter);
+            // 
+            // Id
+            // 
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.Visible = false;
+            this.Id.Width = 30;
+            // 
+            // N
+            // 
+            this.N.HeaderText = "N";
+            this.N.Name = "N";
+            this.N.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.N.Width = 30;
+            // 
+            // Categor
+            // 
+            this.Categor.HeaderText = "Категорія";
+            this.Categor.Name = "Categor";
+            this.Categor.Width = 130;
             // 
             // btnAddCategory
             // 
@@ -98,26 +119,6 @@
             this.btnChange.Text = "Змінити";
             this.btnChange.UseVisualStyleBackColor = true;
             this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
-            // 
-            // Id
-            // 
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.Visible = false;
-            this.Id.Width = 30;
-            // 
-            // N
-            // 
-            this.N.HeaderText = "N";
-            this.N.Name = "N";
-            this.N.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.N.Width = 30;
-            // 
-            // Categor
-            // 
-            this.Categor.HeaderText = "Категорія";
-            this.Categor.Name = "Categor";
-            this.Categor.Width = 130;
             // 
             // FormCategoryes
             // 

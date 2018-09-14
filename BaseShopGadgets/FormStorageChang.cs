@@ -49,8 +49,12 @@ namespace BaseShopGadgets
 
         public void _Change_Storage_In_Repozitory()
         {
-            Form1.tempRepozit.ListStorages[Form1.formStorages.row-1].Name = Form1.formStorages.formStorageChange.textBoxNameCh.Text;
-            Form1.tempRepozit.ListStorages[Form1.formStorages.row-1].Address = Form1.formStorages.formStorageChange.textBoxAddressCh.Text;
+            var temp = Form1.tempRepozit.ListStorages.Where(d => d.Id == number).ToList();
+            Storage tempStore = temp.Single();
+            int indexEl = Form1.tempRepozit.ListStorages.IndexOf(tempStore);
+
+            Form1.tempRepozit.ListStorages[indexEl].Name = Form1.formStorages.formStorageChange.textBoxNameCh.Text;
+            Form1.tempRepozit.ListStorages[indexEl].Address = Form1.formStorages.formStorageChange.textBoxAddressCh.Text;
         }
 
         private void FormStorageChang_Load(object sender, EventArgs e)

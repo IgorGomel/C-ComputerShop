@@ -49,14 +49,14 @@ namespace BaseShopGadgets
             this.BtnDelete = new System.Windows.Forms.ToolStripButton();
             this.BtnChange = new System.Windows.Forms.ToolStripButton();
             this.dataGridViewDiscounts = new System.Windows.Forms.DataGridView();
-            this.textBoxName = new System.Windows.Forms.TextBox();
-            this.textBoxPercent = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.N = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Percent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.textBoxName = new System.Windows.Forms.TextBox();
+            this.textBoxPercent = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.toolStripDiscounts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDiscounts)).BeginInit();
             this.SuspendLayout();
@@ -102,6 +102,7 @@ namespace BaseShopGadgets
             // 
             // dataGridViewDiscounts
             // 
+            this.dataGridViewDiscounts.AllowUserToAddRows = false;
             this.dataGridViewDiscounts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewDiscounts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -113,6 +114,30 @@ namespace BaseShopGadgets
             this.dataGridViewDiscounts.Size = new System.Drawing.Size(238, 123);
             this.dataGridViewDiscounts.TabIndex = 1;
             this.dataGridViewDiscounts.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDiscounts_RowEnter);
+            // 
+            // Id
+            // 
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.Visible = false;
+            this.Id.Width = 30;
+            // 
+            // N
+            // 
+            this.N.HeaderText = "N";
+            this.N.Name = "N";
+            this.N.Width = 30;
+            // 
+            // Name
+            // 
+            this.Name.HeaderText = "Назва знижки";
+            this.Name.Name = "Name";
+            // 
+            // Percent
+            // 
+            this.Percent.HeaderText = "Відсоток знижки";
+            this.Percent.Name = "Percent";
+            this.Percent.Width = 60;
             // 
             // textBoxName
             // 
@@ -147,30 +172,6 @@ namespace BaseShopGadgets
             this.label2.Text = "Відсоток знижки";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
-            // Id
-            // 
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.Visible = false;
-            this.Id.Width = 30;
-            // 
-            // N
-            // 
-            this.N.HeaderText = "N";
-            this.N.Name = "N";
-            this.N.Width = 30;
-            // 
-            // Name
-            // 
-            this.Name.HeaderText = "Назва знижки";
-            this.Name.Name = "Name";
-            // 
-            // Percent
-            // 
-            this.Percent.HeaderText = "Відсоток знижки";
-            this.Percent.Name = "Percent";
-            this.Percent.Width = 60;
-            // 
             // FormDiscounts
             // 
             this.ClientSize = new System.Drawing.Size(460, 165);
@@ -180,7 +181,7 @@ namespace BaseShopGadgets
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.dataGridViewDiscounts);
             this.Controls.Add(this.toolStripDiscounts);
-            //this.Name = "FormDiscounts";
+           // this.Name = "FormDiscounts";
             this.Text = "Знижки";
             this.Load += new System.EventHandler(this.FormDiscounts_Load);
             this.toolStripDiscounts.ResumeLayout(false);
@@ -232,7 +233,7 @@ namespace BaseShopGadgets
         {
             Max = discountIQuer.Max(d => d.Id);
 
-            this.dataGridViewDiscounts.Rows.Add(Max, this.dataGridViewDiscounts.Rows.Count, textBoxName.Text, textBoxPercent.Text);
+            this.dataGridViewDiscounts.Rows.Add(Max, this.dataGridViewDiscounts.Rows.Count+1, textBoxName.Text, textBoxPercent.Text);
         }
 
         private void FormDiscounts_Load(object sender, EventArgs e)
@@ -240,8 +241,17 @@ namespace BaseShopGadgets
             discountIQuer = Form1.db.TableDiscounts;
 
             foreach (Discount disc in discountIQuer)
-                dataGridViewDiscounts.Rows.Add(disc.Id, dataGridViewDiscounts.RowCount, disc.Name, disc.Percent);
+                dataGridViewDiscounts.Rows.Add(disc.Id, dataGridViewDiscounts.RowCount+1, disc.Name, disc.Percent);
 
+            foreach (Discount disc in discountIQuer)
+            {
+                Form1.tempRepozit.ListDiscounts.Add(new Discount()
+                {
+                    Id = disc.Id,
+                    Name = disc.Name,
+                    Percent = disc.Percent
+                });
+            }
 
             this.busnLogicDiscount.AddDiscountToBase += _Add_Discount_To_Base;
             this.busnLogicDiscount.AddDiscountToRepozitory += _Add_Discount_To_Repository;
@@ -264,7 +274,7 @@ namespace BaseShopGadgets
         public void _Delete_Discount_From_Base()
         {
             //...а з бази видаляємо рядок, який відповідає поточному рядку датигрід, але з певним Id
-            number = Convert.ToInt32(this.dataGridViewDiscounts.Rows[row].Cells[1].Value);
+            number = Convert.ToInt32(this.dataGridViewDiscounts.Rows[row].Cells[0].Value);
             discount = Form1.db.TableDiscounts.Where(o => o.Id == number).FirstOrDefault();
             Form1.db.TableDiscounts.Remove(discount);
             Form1.db.SaveChanges();
@@ -290,7 +300,12 @@ namespace BaseShopGadgets
 
         public void _Delete_Discount_From_Repozitory()
         {
-            Form1.tempRepozit.ListDiscounts.RemoveAt(number - 1);
+            for (int i = 0; i < Form1.tempRepozit.ListDiscounts.Count; i++)
+            {
+                if (Form1.tempRepozit.ListDiscounts[i].Id == number)
+                    Form1.tempRepozit.ListDiscounts.RemoveAt(i);
+            }
+            //Form1.tempRepozit.ListDiscounts.RemoveAt(number - 1);
         }
 
         private void BtnChange_Click(object sender, EventArgs e)
@@ -316,8 +331,12 @@ namespace BaseShopGadgets
 
         public void _Change_Discount_In_Repozitory()
         {
-            Form1.tempRepozit.ListDiscounts[Form1.formDiscounts.row].Name = this.textBoxName.Text;
-            Form1.tempRepozit.ListDiscounts[Form1.formDiscounts.row].Percent = Convert.ToInt32(this.textBoxPercent.Text);
+            var temp = Form1.tempRepozit.ListDiscounts.Where(d => d.Id == number).ToList();
+            Discount tempDiscount = temp.Single();
+            int indexEl = Form1.tempRepozit.ListDiscounts.IndexOf(tempDiscount);
+
+            Form1.tempRepozit.ListDiscounts[indexEl].Name = this.textBoxName.Text;
+            Form1.tempRepozit.ListDiscounts[indexEl].Percent = Convert.ToInt32(this.textBoxPercent.Text);
         }
 
         private void dataGridViewDiscounts_RowEnter(object sender, DataGridViewCellEventArgs e)

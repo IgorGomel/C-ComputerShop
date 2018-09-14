@@ -72,6 +72,26 @@ namespace BaseShopGadgets
 
                 MainDataGridView.Rows.Add(assort.Id, device.Name, category.Name, storage.Name, assort.Describe, assort.Amount, assort.Price);
             }
+
+            foreach (Assortment assort in assortIQuer)
+            {
+                //var dev = deviceIQuer.Where(d => d.Id == assort.IdDevice).ToList();
+                //device = dev.Single();
+                //var stor = storageIQuer.Where(d => d.Id == assort.IdStorage).ToList();
+                //storage = stor.Single();
+                //var categ = categoryIQuer.Where(d => d.Id == device.IdCategory).ToList();
+                //category = categ.Single();
+
+                Form1.tempRepozit.ListAssortment.Add(new Assortment()
+                {
+                    Id = assort.Id,
+                    IdStorage = assort.IdStorage,
+                    Describe = assort.Describe,
+                    Amount = assort.Amount,
+                    Price = assort.Price, 
+                    IdDevice = assort.IdDevice
+                });
+            }
         }
 
         //виклик форми "Товари"
@@ -120,7 +140,7 @@ namespace BaseShopGadgets
         private void BtnNewSale_Click(object sender, EventArgs e)
         {
             formSale = new FormSale();
-            formSale.ShowDialog();
+            formSale.Show();
         }
 
         private void textBoxSearchGoods_TextChanged(object sender, EventArgs e)

@@ -34,10 +34,10 @@ namespace BaseShopGadgets
         {
             if (DeleteVipClientFromBase != null)
                 DeleteVipClientFromBase();
-            if (DeleteVipClientFromDataGridView != null)
-                DeleteVipClientFromDataGridView();
             if (DeleteVipClientFromRepozitory != null)
                 DeleteVipClientFromRepozitory();
+            if (DeleteVipClientFromDataGridView != null)
+                DeleteVipClientFromDataGridView();
         }
 
         public void ChangeVipClient()

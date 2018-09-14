@@ -56,7 +56,7 @@ namespace BaseShopGadgets
         {
             Max = providerIQuer.Max(d => d.Id);
 
-            Form1.formProviders.dataGridViewProviders.Rows.Add(Max, Form1.formProviders.dataGridViewProviders.Rows.Count, textBoxName.Text, textBoxAddress.Text, textBoxPhone.Text);
+            Form1.formProviders.dataGridViewProviders.Rows.Add(Max, Form1.formProviders.dataGridViewProviders.Rows.Count+1, textBoxName.Text, textBoxAddress.Text, textBoxPhone.Text);
         }
 
         public void _Add_Provider_To_Repozitory()

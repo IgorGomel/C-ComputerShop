@@ -68,14 +68,18 @@ namespace BaseShopGadgets
 
         public void _Change_Device_In_Repositiry()
         {
+            var temp = Form1.tempRepozit.ListDevices.Where(d => d.Id == number).ToList();
+            Device tempDevice = temp.Single();
+            int indexEl = Form1.tempRepozit.ListDevices.IndexOf(tempDevice);
+
             categoryIQuer = Form1.db.TableCategoryes;
-            var tempCateg = categoryIQuer.Where(d => string.Equals(d.Id, comboBoxCategoryCh.Text));
+            var tempCateg = categoryIQuer.Where(d => string.Equals(d.Name, comboBoxCategoryCh.Text));
             category = tempCateg.Single();
 
-            Form1.tempRepozit.ListDevices[Form1.formGoods.row].Name = Form1.formGoods.formGoodsChange.textBoxNameCh.Text;
-            Form1.tempRepozit.ListDevices[Form1.formGoods.row].IdCategory = category.Id;
-            Form1.tempRepozit.ListDevices[Form1.formGoods.row].Descript = Form1.formGoods.formGoodsChange.textBoxDescriptCh.Text;
-            Form1.tempRepozit.ListDevices[Form1.formGoods.row].Price = Convert.ToDouble(Form1.formGoods.formGoodsChange.textBoxPriceCh.Text);
+            Form1.tempRepozit.ListDevices[indexEl].Name = Form1.formGoods.formGoodsChange.textBoxNameCh.Text;
+            Form1.tempRepozit.ListDevices[indexEl].IdCategory = category.Id;
+            Form1.tempRepozit.ListDevices[indexEl].Descript = Form1.formGoods.formGoodsChange.textBoxDescriptCh.Text;
+            Form1.tempRepozit.ListDevices[indexEl].Price = Convert.ToDouble(Form1.formGoods.formGoodsChange.textBoxPriceCh.Text);
         }
 
         private void btnCloseCh_Click(object sender, EventArgs e)

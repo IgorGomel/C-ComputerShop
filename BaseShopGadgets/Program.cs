@@ -26,6 +26,8 @@ namespace BaseShopGadgets
             ff = new Form1();
             //Application.Run( new Form1());
             Application.Run(ff);
+            //Form1.formDelivery.busnLogicDelivery.AddDeliveryToBaseAssortment += Form1.formDelivery._Add_Delivery_To_Base_Assortment;
+
         }
     }
 }

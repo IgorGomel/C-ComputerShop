@@ -91,6 +91,7 @@ namespace BaseShopGadgets
             // 
             // dataGridViewStorages
             // 
+            this.dataGridViewStorages.AllowUserToAddRows = false;
             this.dataGridViewStorages.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewStorages.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -158,7 +159,17 @@ namespace BaseShopGadgets
 
             foreach (Storage stor in storageIQuer)
             {
-                dataGridViewStorages.Rows.Add(stor.Id, dataGridViewStorages.RowCount, stor.Name, stor.Address);
+                dataGridViewStorages.Rows.Add(stor.Id, dataGridViewStorages.RowCount+1, stor.Name, stor.Address);
+            }
+
+            foreach (Storage stor in storageIQuer)
+            {
+                Form1.tempRepozit.ListStorages.Add(new Storage()
+                {
+                    Id = stor.Id,
+                    Name = stor.Name,
+                    Address = stor.Address
+                });
             }
 
             this.businessLogicStorage.DeleteStorageFromBase += _Delete_Storage_From_Base;
@@ -174,7 +185,7 @@ namespace BaseShopGadgets
         public void _Delete_Storage_From_Base()
         {
             //...а з бази видаляємо рядок, який відповідає поточному рядку датигрід, але з певним Id
-            number = Convert.ToInt32(this.dataGridViewStorages.Rows[row].Cells[1].Value);
+            number = Convert.ToInt32(this.dataGridViewStorages.Rows[row].Cells[0].Value);
             storage = Form1.db.TableStorages.Where(o => o.Id == number).FirstOrDefault();
             Form1.db.TableStorages.Remove(storage);
 
@@ -201,7 +212,12 @@ namespace BaseShopGadgets
 
         public void _Delete_Storage_From_Repozitory()
         {
-            Form1.tempRepozit.ListStorages.RemoveAt(number);
+            //Form1.tempRepozit.ListStorages.RemoveAt(row);
+            for (int i = 0; i < Form1.tempRepozit.ListStorages.Count; i++)
+            {
+                if (Form1.tempRepozit.ListStorages[i].Id == number)
+                    Form1.tempRepozit.ListStorages.RemoveAt(i);
+            }
         }
 
         private void dataGridViewStorages_RowEnter(object sender, DataGridViewCellEventArgs e)

@@ -34,10 +34,10 @@ namespace BaseShopGadgets
         {
             if (DeleteProviderFromBase != null)
                 DeleteProviderFromBase();
-            if (DeleteProviderFromDataGridView != null)
-                DeleteProviderFromDataGridView();
             if (DeleteProviderFromRepozitory != null)
                 DeleteProviderFromRepozitory();
+            if (DeleteProviderFromDataGridView != null)
+                DeleteProviderFromDataGridView();
         }
 
         public void ChangeProvider()

@@ -51,9 +51,13 @@ namespace BaseShopGadgets
 
         public void _Change_Privider_In_Repozitory()
         {
-            Form1.tempRepozit.ListProviders[Form1.formProviders.row-1].Name = Form1.formProviders.formProviderChange.textBoxNameCh.Text;
-            Form1.tempRepozit.ListProviders[Form1.formProviders.row - 1].Address = Form1.formProviders.formProviderChange.textBoxAddressCh.Text;
-            Form1.tempRepozit.ListProviders[Form1.formProviders.row - 1].Phone = Form1.formProviders.formProviderChange.textBoxPhoneCh.Text;
+            var temp = Form1.tempRepozit.ListProviders.Where(d => d.Id == number).ToList();
+            Provider tempProv = temp.Single();
+            int indexEl = Form1.tempRepozit.ListProviders.IndexOf(tempProv);
+
+            Form1.tempRepozit.ListProviders[indexEl].Name = Form1.formProviders.formProviderChange.textBoxNameCh.Text;
+            Form1.tempRepozit.ListProviders[indexEl].Address = Form1.formProviders.formProviderChange.textBoxAddressCh.Text;
+            Form1.tempRepozit.ListProviders[indexEl].Phone = Form1.formProviders.formProviderChange.textBoxPhoneCh.Text;
         }
 
         private void FormProviderChange_Load(object sender, EventArgs e)

@@ -42,7 +42,7 @@ namespace BaseShopGadgets
             if (hasElements == false)
                 Form1.db.Database.ExecuteSqlCommand("TRUNCATE TABLE dbo.VipClients");
 
-            var tempDiscount = discountIQuer.Where(d => string.Equals(d.Id, comboBoxDiscount.Text));
+            var tempDiscount = discountIQuer.Where(d => string.Equals(d.Name, comboBoxDiscount.Text));
             discount = tempDiscount.Single();
 
             Form1.db.TableVipClients.Add(new VipClient()
@@ -60,6 +60,7 @@ namespace BaseShopGadgets
         {
             Form1.tempRepozit.ListVipClients.Add(new VipClient()
             {
+                Id = Max,
                 Name = textBoxName.Text,
                 LastName = textBoxLastName.Text,
                 Passport = textBoxPassport.Text,
@@ -71,7 +72,7 @@ namespace BaseShopGadgets
         public void _Add_VipClient_To_DataGridView()
         {
             Max = vipClientIQuer.Max(d => d.Id);
-            Form1.formVipClients.dataGridViewVipClients.Rows.Add(Max, Form1.formVipClients.dataGridViewVipClients.Rows.Count, textBoxName.Text, textBoxLastName.Text, textBoxPassport.Text, comboBoxDiscount.SelectedValue);
+            Form1.formVipClients.dataGridViewVipClients.Rows.Add(Max, Form1.formVipClients.dataGridViewVipClients.Rows.Count+1, textBoxName.Text, textBoxLastName.Text, textBoxPassport.Text, comboBoxDiscount.SelectedValue);
         }
 
         private void FormNewVipClient_Load(object sender, EventArgs e)

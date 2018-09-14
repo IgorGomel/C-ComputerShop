@@ -49,7 +49,7 @@ namespace BaseShopGadgets
             IQueryable<Category> categorIQuer = Form1.db.TableCategoryes;
             int Max = categorIQuer.Max(d => d.Id);
 
-            FormGoods.newFormCategoryes.dataGridViewCategory.Rows.Add(Max, FormGoods.newFormCategoryes.dataGridViewCategory.Rows.Count, textBoxCategory.Text);
+            FormGoods.newFormCategoryes.dataGridViewCategory.Rows.Add(Max, FormGoods.newFormCategoryes.dataGridViewCategory.Rows.Count+1, textBoxCategory.Text);
             FormGoods.newFormCategoryes.textBoxCategory.Clear();
         }
 
@@ -70,7 +70,7 @@ namespace BaseShopGadgets
             categoryIQuer = Form1.db.TableCategoryes;
 
             foreach (Category categ in categoryIQuer)
-                dataGridViewCategory.Rows.Add(categ.Id, dataGridViewCategory.RowCount, categ.Name);
+                dataGridViewCategory.Rows.Add(categ.Id, dataGridViewCategory.RowCount+1, categ.Name);
 
             foreach (Category categ in categoryIQuer)
             {
@@ -133,7 +133,12 @@ namespace BaseShopGadgets
 
         public void _Delete_Category_From_Repozitory()
         {
-            Form1.tempRepozit.ListCaregoryes.RemoveAt(number);
+            for (int i = 0; i < Form1.tempRepozit.ListCaregoryes.Count; i++)
+            {
+                if (Form1.tempRepozit.ListCaregoryes[i].Id == number)
+                    Form1.tempRepozit.ListCaregoryes.RemoveAt(i);
+            }
+            //Form1.tempRepozit.ListCaregoryes.RemoveAt(number);
         }
 
         private void btnChange_Click(object sender, EventArgs e)
@@ -159,7 +164,11 @@ namespace BaseShopGadgets
 
         public void _Change_Category_In_Repozitory()
         {
-            Form1.tempRepozit.ListCaregoryes[row].Name = textBoxCategory.Text;
+            var temp = Form1.tempRepozit.ListCaregoryes.Where(d => d.Id == number).ToList();
+            Category tempCateg = temp.Single();
+            int indexEl = Form1.tempRepozit.ListCaregoryes.IndexOf(tempCateg);
+
+            Form1.tempRepozit.ListCaregoryes[indexEl].Name = textBoxCategory.Text;
         }
 
         private void dataGridViewCategory_RowEnter(object sender, DataGridViewCellEventArgs e)
@@ -167,10 +176,7 @@ namespace BaseShopGadgets
             FormGoods.newFormCategoryes.dataGridViewCategory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             row = e.RowIndex;
 
-            //if (row == 0)
-            //    FormGoods.newFormCategoryes.textBoxCategory.Clear();
-            //else
-                FormGoods.newFormCategoryes.textBoxCategory.Text = FormGoods.newFormCategoryes.dataGridViewCategory.Rows[row].Cells[2].Value.ToString();
+            FormGoods.newFormCategoryes.textBoxCategory.Text = FormGoods.newFormCategoryes.dataGridViewCategory.Rows[row].Cells[2].Value.ToString();
         }
     }
 }

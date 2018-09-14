@@ -35,10 +35,10 @@ namespace BaseShopGadgets
         {
             if (DeleteDiscountFromBase != null)
                 DeleteDiscountFromBase();
-            if (DeleteDiscountFromDataGridView != null)
-                DeleteDiscountFromDataGridView();
             if (DeleteDiscountFromRepozitory != null)
                 DeleteDiscountFromRepozitory();
+            if (DeleteDiscountFromDataGridView != null)
+                DeleteDiscountFromDataGridView();
         }
 
         public void ChangeDiscount()

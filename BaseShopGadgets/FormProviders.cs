@@ -93,6 +93,7 @@ namespace BaseShopGadgets
             // 
             // dataGridViewProviders
             // 
+            this.dataGridViewProviders.AllowUserToAddRows = false;
             this.dataGridViewProviders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewProviders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -197,7 +198,12 @@ namespace BaseShopGadgets
 
         public void _Delete_Provider_From_Repozitory()
         {
-            Form1.tempRepozit.ListProviders.RemoveAt(number);
+            //Form1.tempRepozit.ListProviders.RemoveAt(number);
+            for (int i = 0; i < Form1.tempRepozit.ListProviders.Count; i++)
+            {
+                if (Form1.tempRepozit.ListProviders[i].Id == number)
+                    Form1.tempRepozit.ListProviders.RemoveAt(i);
+            }
         }
 
         private void FormProviders_Load(object sender, EventArgs e)
@@ -205,7 +211,18 @@ namespace BaseShopGadgets
             providerIQuer = Form1.db.TableProviders;
 
             foreach (Provider prov in providerIQuer)
-                dataGridViewProviders.Rows.Add(prov.Id, dataGridViewProviders.RowCount, prov.Name, prov.Address, prov.Phone);
+                dataGridViewProviders.Rows.Add(prov.Id, dataGridViewProviders.RowCount+1, prov.Name, prov.Address, prov.Phone);
+
+            foreach (Provider prov in providerIQuer)
+            {
+                Form1.tempRepozit.ListProviders.Add(new Provider()
+                {
+                    Id = prov.Id,
+                    Name = prov.Name,
+                    Address = prov.Address,
+                    Phone = prov.Phone
+                });
+            }
 
             this.businessLogicProvider.DeleteProviderFromBase += _Delete_Provider_From_Base;
             this.businessLogicProvider.DeleteProviderFromDataGridView += _Delete_Provider_From_DataGridView;

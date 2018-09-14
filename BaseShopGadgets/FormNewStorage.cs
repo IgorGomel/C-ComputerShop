@@ -136,7 +136,7 @@ namespace BaseShopGadgets
             //IQueryable<Storage> storageIQuer = Form1.db.TableStorages;
             Max = storageIQuer.Max(d => d.Id);
 
-            Form1.formStorages.dataGridViewStorages.Rows.Add(Max, Form1.formStorages.dataGridViewStorages.Rows.Count, textBoxName.Text, textBoxAddress.Text);
+            Form1.formStorages.dataGridViewStorages.Rows.Add(Max, Form1.formStorages.dataGridViewStorages.Rows.Count+1, textBoxName.Text, textBoxAddress.Text);
         }
 
         public void _Add_Storage_To_Repozitory()

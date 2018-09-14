@@ -71,7 +71,7 @@ namespace BaseShopGadgets
             //deviceIQuer = Form1.db.TableDevices;
             Max = deviceIQuer.Max(d => d.Id);
 
-            Form1.formGoods.dataGridViewGoods.Rows.Add(Form1.formGoods.dataGridViewGoods.Rows.Count, Max, textBoxName.Text, comboBoxCategory.SelectedValue, textBoxDescript.Text, textBoxPrice.Text);    
+            Form1.formGoods.dataGridViewGoods.Rows.Add(Form1.formGoods.dataGridViewGoods.Rows.Count+1, Max, textBoxName.Text, comboBoxCategory.SelectedValue, textBoxDescript.Text, textBoxPrice.Text);    
         }
 
         //обробщик добавлення девайсу до репозиторія
