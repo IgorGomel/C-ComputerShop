@@ -26,6 +26,7 @@ namespace BaseShopGadgets
         int number;
         int Max;
         bool flag;
+        bool availabilaty; //мітка наявності товару на складі
         IQueryable<Provider> providerIQuer;
         IQueryable<SalesArchiv> saleArchIQuer;
         IQueryable<Storage> storageIQuer;
@@ -82,38 +83,33 @@ namespace BaseShopGadgets
 
         private void _Add_Sale_To_BaseSalesArchiv()
         {
-            saleArchIQuer = Form1.db.TableySalesArchiv;
-            //deviceIQuer = Form1.db.TableDevices;
-            //storageIQuer = Form1.db.TableStorages;
-            
-
-            bool hasElements = saleArchIQuer.Any();
-            if (hasElements == false)
-                Form1.db.Database.ExecuteSqlCommand("TRUNCATE TABLE dbo.SalesArchivs");
-
-            ////відбираємо склад для добавлення в таблицю Assortment. Вибірку робимо з таблиці Storages...
-            ////...Id елемента comboBoxStorage повинен відповідати Id поля таблиці storages
-            //var stor = storageIQuer.Where(d => string.Equals(d.Id, comboBoxStorage.Text)).ToList();
-            //storage = stor.Single();
-
-
-            ////відбираємо девайс для добавлення в таблицю Assortment. Вибірку робимо з таблиці Devices...
-            ////...текст елемента textBoxGoods повинен бути ідентичний полю Name шуканого елемента таблицы Devices
-            //var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
-            //device = dev.Single();
-
-            Form1.db.TableySalesArchiv.Add(new SalesArchiv()
+            if (availabilaty == true)//якщо э товар на складі - воконуємо дії
+                                     //якщо нема - виводимо повідомлення
             {
-                
-                IdDevice = device.Id,
-                IdStorage = storage.Id,
-                Describe = device.Descript,  //Convert.ToString(description),
-                Amount = (int)numericUpDownAmount.Value,
-                Price = (int)numericUpDownPrice.Value,
-                Date = dateTimePickerSale.Value
+                saleArchIQuer = Form1.db.TableySalesArchiv;
+                //deviceIQuer = Form1.db.TableDevices;
+                //storageIQuer = Form1.db.TableStorages;
+
+
+                bool hasElements = saleArchIQuer.Any();
+                if (hasElements == false)
+                    Form1.db.Database.ExecuteSqlCommand("TRUNCATE TABLE dbo.SalesArchivs");
+
+                Form1.db.TableySalesArchiv.Add(new SalesArchiv()
+                {
+
+                    IdDevice = device.Id,
+                    IdStorage = storage.Id,
+                    Describe = device.Descript,  //Convert.ToString(description),
+                    Amount = (int)numericUpDownAmount.Value,
+                    Price = (int)numericUpDownPrice.Value,
+                    Date = dateTimePickerSale.Value
+                }
+                   );
+                Form1.db.SaveChanges();
             }
-               );
-            Form1.db.SaveChanges();
+            else
+                MessageBox.Show("Такої продукції на складі нема!");
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -130,19 +126,23 @@ namespace BaseShopGadgets
 
         private void _Add_Sale_To_BaseAssortment()
         {
+            availabilaty = false;
             assortIQuer = Form1.db.TableAssornment;
             deviceIQuer = Form1.db.TableDevices;
             storageIQuer = Form1.db.TableStorages;
+            categoryIQuer = Form1.db.TableCategoryes;
 
             //відбираємо склад для добавлення в таблицю Assortment. Вибірку робимо з таблиці Storages...
             //...Id елемента comboBoxStorage повинен відповідати Id поля таблиці storages
             var stor = storageIQuer.Where(d => string.Equals(d.Name, comboBoxStorage.Text)).ToList();
             storage = stor.Single();
 
+            var categ = categoryIQuer.Where(d => string.Equals(d.Name, comboBoxCategory.Text)).ToList();
+            category = categ.Single();
 
             //відбираємо девайс для добавлення в таблицю Assortment. Вибірку робимо з таблиці Devices...
             //...текст елемента textBoxGoods повинен бути ідентичний полю Name шуканого елемента таблицы Devices
-            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
+            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text) & d.IdCategory == category.Id).ToList();
             device = dev.Single();
 
             //проходимось по таблиці асортименту
@@ -153,6 +153,7 @@ namespace BaseShopGadgets
                 {
                     //...тоді просто віднімаємо кількість збутих девайсів
                     assort.Amount = assort.Amount - (int)numericUpDownAmount.Value;
+                    availabilaty = true;
                     break;
                 }
             }
@@ -162,27 +163,39 @@ namespace BaseShopGadgets
 
         private void _Add_Sale_To_DataGridViewMain()
         {
-            for (int i = 0; i < Program.ff.MainDataGridView.RowCount; i++)
+            if (availabilaty == true)//якщо є товар на складі - воконуємо дії
+                                     //якщо нема - нічого не робимо
             {
-                if(String.Equals(Program.ff.MainDataGridView.Rows[i].Cells[1].Value, textBoxGoods.Text) & String.Equals(Program.ff.MainDataGridView.Rows[i].Cells[3].Value, comboBoxStorage.Text))
-                    Program.ff.MainDataGridView.Rows[i].Cells[5].Value = Convert.ToInt32(Program.ff.MainDataGridView.Rows[i].Cells[5].Value) - Convert.ToInt32(numericUpDownAmount.Value);
+                for (int i = 0; i < Program.ff.MainDataGridView.RowCount; i++)
+                {
+                    if (String.Equals(Program.ff.MainDataGridView.Rows[i].Cells[1].Value, textBoxGoods.Text) & String.Equals(Program.ff.MainDataGridView.Rows[i].Cells[3].Value, comboBoxStorage.Text))
+                        Program.ff.MainDataGridView.Rows[i].Cells[5].Value = Convert.ToInt32(Program.ff.MainDataGridView.Rows[i].Cells[5].Value) - Convert.ToInt32(numericUpDownAmount.Value);
+                }
             }
         }
 
         private void _Add_Sale_To_DataGridViewArchiv()
         {
-            Max = saleArchIQuer.Max(d => d.Id);
-            dataGridViewSales.Rows.Add(Max,dataGridViewSales.RowCount+1, textBoxGoods.Text, comboBoxStorage.Text, device.Descript, numericUpDownAmount.Value, numericUpDownPrice.Value, dateTimePickerSale.Value, comboBoxCategory.Text);
+            if (availabilaty == true)//якщо є товар на складі - воконуємо дії
+                                     //якщо нема - нічого не робимо
+            {
+                Max = saleArchIQuer.Max(d => d.Id);
+                dataGridViewSales.Rows.Add(Max, dataGridViewSales.RowCount + 1, textBoxGoods.Text, comboBoxStorage.Text, device.Descript, numericUpDownAmount.Value, numericUpDownPrice.Value, dateTimePickerSale.Value, comboBoxCategory.Text);
+            }
         }
 
         private void _Add_Sale_To_RepozitoryAssortment()
         {
-            foreach (Assortment assort in Form1.tempRepozit.ListAssortment)
+            if (availabilaty == true)//якщо є товар на складі - воконуємо дії
+                                     //якщо нема - нічого не робимо
             {
-                if (assort.IdDevice == device.Id & assort.IdStorage == storage.Id)
+                foreach (Assortment assort in Form1.tempRepozit.ListAssortment)
                 {
-                    assort.Amount = assort.Amount - (int)numericUpDownAmount.Value;
-                    break;
+                    if (assort.IdDevice == device.Id & assort.IdStorage == storage.Id)
+                    {
+                        assort.Amount = assort.Amount - (int)numericUpDownAmount.Value;
+                        break;
+                    }
                 }
             }
         }
@@ -206,6 +219,7 @@ namespace BaseShopGadgets
 
         private void changeComboBoxValue(Object sender, EventArgs e)
         {
+            textBoxGoods.Clear();
             textBoxGoods.AutoCompleteCustomSource.Clear();
             categoryIQuer = Form1.db.TableCategoryes;
 
@@ -275,9 +289,12 @@ namespace BaseShopGadgets
             flag = true;
             newAmount = numericUpDownAmount.Value;
 
+            categoryIQuer = Form1.db.TableCategoryes;
+            var categ = categoryIQuer.Where(d => String.Equals(d.Name, comboBoxCategory.Text)).ToList();
+            category = categ.Single();
             //відбираємо новий девайс
             deviceIQuer = Form1.db.TableDevices;
-            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
+            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text) & d.IdCategory == category.Id).ToList();
             device = dev.Single();
 
             //відбираємо новий склад
@@ -648,9 +665,13 @@ namespace BaseShopGadgets
 
         private void _Delete_Sale_From_BaseSalesAssortment()
         {
+            categoryIQuer = Form1.db.TableCategoryes;
+            var categ = categoryIQuer.Where(d => String.Equals(d.Name, comboBoxCategory.Text)).ToList();
+            category = categ.Single();
+
             //відбираємо девайс
             deviceIQuer = Form1.db.TableDevices;
-            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
+            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text) & d.IdCategory == category.Id).ToList();
             device = dev.Single();
 
             ////відбираємо  склад

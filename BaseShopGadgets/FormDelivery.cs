@@ -171,6 +171,7 @@ namespace BaseShopGadgets
         {
            
             flag = true;
+            categoryIQuer = Form1.db.TableCategoryes;
             storageIQuer = Form1.db.TableStorages;
             assortIQuer = Form1.db.TableAssornment;
             deviceIQuer = Form1.db.TableDevices;
@@ -185,10 +186,14 @@ namespace BaseShopGadgets
             var stor = storageIQuer.Where(d => string.Equals(d.Name, comboBoxStorage.Text)).ToList();
             storage = stor.Single();
 
-            
+
+            var categ = categoryIQuer.Where(d => String.Equals(d.Name, comboBoxCategory.Text)).ToList();
+            category = categ.Single();
+
+
             //відбираємо девайс для добавлення в таблицю Assortment. Вибірку робимо з таблиці Devices...
             //...текст елемента textBoxGoods повинен бути ідентичний полю Name шуканого елемента таблицы Devices
-            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
+            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text) & d.IdCategory == category.Id).ToList();
             device = dev.Single();
 
             
@@ -373,6 +378,7 @@ namespace BaseShopGadgets
 
         private void changeComboBoxValue(Object sender, EventArgs e)
         {
+            textBoxGoods.Clear();
             textBoxGoods.AutoCompleteCustomSource.Clear();
             categoryIQuer = Form1.db.TableCategoryes;
 
@@ -428,8 +434,12 @@ namespace BaseShopGadgets
         private void _Change_Delivery_In_Base_DeliveryesArchiv()
         {
             deviceIQuer = Form1.db.TableDevices;
+            categoryIQuer = Form1.db.TableCategoryes;
+
+            var categ = categoryIQuer.Where(d => String.Equals(d.Name, comboBoxCategory.Text)).ToList();
+            category = categ.Single();
             //відбираємо новий девайс
-            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
+            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text) & d.Id == category.Id).ToList();
             device = dev.Single();
 
             //в змінну number помістимо Id запису
@@ -451,10 +461,14 @@ namespace BaseShopGadgets
         {
             flag = true;
             newAmount = numericUpDownAmount.Value;
-            
+
+            categoryIQuer = Form1.db.TableCategoryes;
+            var categ = categoryIQuer.Where(d => String.Equals(d.Name, comboBoxCategory.Text)).ToList();
+            category = categ.Single();
+
             //відбираємо новий девайс
             deviceIQuer = Form1.db.TableDevices;
-            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
+            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text) & d.IdCategory == category.Id).ToList();
             device = dev.Single();
 
             //відбираємо новий склад
@@ -846,9 +860,13 @@ namespace BaseShopGadgets
 
         private void _Delete_Delivery_From_BaseAssortment()
         {
+            categoryIQuer = Form1.db.TableCategoryes;
+            var categ = categoryIQuer.Where(d => String.Equals(d.Name, comboBoxCategory.Text)).ToList();
+            category = categ.Single();
+
             //відбираємо девайс
             deviceIQuer = Form1.db.TableDevices;
-            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text)).ToList();
+            var dev = deviceIQuer.Where(d => String.Equals(d.Name, textBoxGoods.Text) & d.IdCategory == category.Id).ToList();
             device = dev.Single();
 
             ////відбираємо  склад
