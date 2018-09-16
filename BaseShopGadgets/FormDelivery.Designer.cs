@@ -244,6 +244,7 @@
             // 
             // dateTimePickerDelivery
             // 
+            this.dateTimePickerDelivery.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePickerDelivery.Location = new System.Drawing.Point(103, 185);
             this.dateTimePickerDelivery.Name = "dateTimePickerDelivery";
             this.dateTimePickerDelivery.Size = new System.Drawing.Size(155, 20);
@@ -269,7 +270,6 @@
             this.comboBoxCategory.Size = new System.Drawing.Size(148, 21);
             this.comboBoxCategory.TabIndex = 17;
             this.comboBoxCategory.ValueMember = "Name";
-            //this.comboBoxCategory.SelectedValueChanged += new System.EventHandler(this.comboBoxCategory_SelectedValueChanged);
             // 
             // categoriesBindingSource1
             // 

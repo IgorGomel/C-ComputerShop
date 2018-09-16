@@ -16,7 +16,7 @@ namespace BaseShopGadgets
         TimeSpan timeSpanTemp;
 
         TimeSpan timeActivityOfRow = new TimeSpan(36, 0, 0);
-        DateTime dateTimeOfDelivery;
+        DateTime dateTimeOfSale;
         DateTime currentDateTime;
         Decimal oldAmount;
         Decimal newAmount;
@@ -83,7 +83,7 @@ namespace BaseShopGadgets
 
         private void _Add_Sale_To_BaseSalesArchiv()
         {
-            if (availabilaty == true)//якщо э товар на складі - воконуємо дії
+            if (availabilaty == true)//якщо є товар на складі - виконуємо дії
                                      //якщо нема - виводимо повідомлення
             {
                 saleArchIQuer = Form1.db.TableySalesArchiv;
@@ -103,7 +103,7 @@ namespace BaseShopGadgets
                     Describe = device.Descript,  //Convert.ToString(description),
                     Amount = (int)numericUpDownAmount.Value,
                     Price = (int)numericUpDownPrice.Value,
-                    Date = dateTimePickerSale.Value
+                    Date = Convert.ToDateTime(dateTimePickerSale.Text) + DateTime.Now.TimeOfDay
                 }
                    );
                 Form1.db.SaveChanges();
@@ -180,7 +180,7 @@ namespace BaseShopGadgets
                                      //якщо нема - нічого не робимо
             {
                 Max = saleArchIQuer.Max(d => d.Id);
-                dataGridViewSales.Rows.Add(Max, dataGridViewSales.RowCount + 1, textBoxGoods.Text, comboBoxStorage.Text, device.Descript, numericUpDownAmount.Value, numericUpDownPrice.Value, dateTimePickerSale.Value, comboBoxCategory.Text);
+                dataGridViewSales.Rows.Add(Max, dataGridViewSales.RowCount + 1, textBoxGoods.Text, comboBoxStorage.Text, device.Descript, numericUpDownAmount.Value, numericUpDownPrice.Value, Convert.ToDateTime(dateTimePickerSale.Text) + DateTime.Now.TimeOfDay, comboBoxCategory.Text);
             }
         }
 
@@ -261,8 +261,32 @@ namespace BaseShopGadgets
                 category = categ.Single();
 
                 dataGridViewSales.Rows.Add(sale.Id, dataGridViewSales.RowCount+1, device.Name, storage.Name, device.Descript, sale.Amount, sale.Price, sale.Date, category.Name);
-            }            
+            }
+
+            timer = new Timer();
+            timer.Interval = 5000;
+            timer.Tick += _DataGridArchiv_Process;
+            timer.Start();
         }
+
+        private void _DataGridArchiv_Process(Object sender, EventArgs e)
+        {
+            if (dataGridViewSales.Rows.Count > 0)
+            {
+                currentDateTime = DateTime.Now;
+                for (int i = 0; i < dataGridViewSales.RowCount; i++)
+                {
+                    dateTimeOfSale = DateTime.Parse(dataGridViewSales.Rows[i].Cells[7].Value.ToString());
+                    timeSpanTemp = currentDateTime.Subtract(dateTimeOfSale);
+                    
+                    if (timeSpanTemp > timeActivityOfRow)
+                        dataGridViewSales.Rows[i].ReadOnly = true;
+                }
+            }
+
+        }
+
+
 
         private void btnChange_Click(object sender, EventArgs e)
         {

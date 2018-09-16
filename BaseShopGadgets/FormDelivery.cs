@@ -19,7 +19,7 @@ namespace BaseShopGadgets
         static Timer timer;
         TimeSpan timeSpanTemp;
 
-        TimeSpan timeActivityOfRow = new TimeSpan(36, 0 , 0);
+        TimeSpan timeActivityOfRow = new TimeSpan(0, 0 , 25);
         DateTime dateTimeOfDelivery;
         DateTime currentDateTime;
         Decimal oldAmount;
@@ -99,24 +99,8 @@ namespace BaseShopGadgets
                 dataGrViewDeliveryArchiv.Rows.Add(delivery.Id, dataGrViewDeliveryArchiv.RowCount + 1, device.Name, provider.Name, storage.Name, delivery.Describe, delivery.Amount, delivery.Price, delivery.Date, category.Name);
             }
 
-            //// TODO: данная строка кода позволяет загрузить данные в таблицу "modelBaseShopDataSet1.Categories". При необходимости она может быть перемещена или удалена.
-            //this.categoriesTableAdapter.Fill(this.modelBaseShopDataSet1.Categories);
-            //// TODO: данная строка кода позволяет загрузить данные в таблицу "modelBaseShopDataSet1.Devices". При необходимости она может быть перемещена или удалена.
-            ////this.devicesTableAdapter1.Fill(this.modelBaseShopDataSet1.Devices);
-            //// TODO: данная строка кода позволяет загрузить данные в таблицу "modelBaseShopDataSet.Providers". При необходимости она может быть перемещена или удалена.
-            //this.providersTableAdapter.Fill(this.modelBaseShopDataSet.Providers);
-            //// TODO: данная строка кода позволяет загрузить данные в таблицу "modelBaseShopDataSet.Storages". При необходимости она может быть перемещена или удалена.
-            //this.storagesTableAdapter.Fill(this.modelBaseShopDataSet.Storages);
-            //// TODO: данная строка кода позволяет загрузить данные в таблицу "modelBaseShopDataSet.Devices". При необходимости она может быть перемещена или удалена.
-            ////this.devicesTableAdapter.Fill(this.modelBaseShopDataSet.Devices);
-
-            //textBoxGoods.Text = " ";
-
-            //comboBoxCategory.SelectedValue = null;
-            //this.comboBoxCategory.SelectedValueChanged += changeComboBoxValue;
-
             timer = new Timer();
-            timer.Interval = 5000;//3600000;
+            timer.Interval = 5000;
             timer.Tick += _DataGridArchiv_Process;
             timer.Start();
         }
@@ -328,7 +312,7 @@ namespace BaseShopGadgets
                 Describe = device.Descript,  //Convert.ToString(description),
                 Amount = (int)numericUpDownAmount.Value,
                 Price = (int)numericUpDownPrice.Value,
-                Date = dateTimePickerDelivery.Value
+                Date = Convert.ToDateTime(dateTimePickerDelivery.Text) + DateTime.Now.TimeOfDay
             }
                );
             Form1.db.SaveChanges();
@@ -338,7 +322,7 @@ namespace BaseShopGadgets
         private void _Add_Delivery_To_DataGridView_Archiv()
         {
             Max = delivArchIQuer.Max(d => d.Id);
-            this.dataGrViewDeliveryArchiv.Rows.Add(Max, this.dataGrViewDeliveryArchiv.Rows.Count+1, textBoxGoods.Text, comboBoxProvider.Text, comboBoxStorage.Text, device.Descript, numericUpDownAmount.Value, numericUpDownPrice.Value, dateTimePickerDelivery.Value, comboBoxCategory.Text);
+            this.dataGrViewDeliveryArchiv.Rows.Add(Max, this.dataGrViewDeliveryArchiv.Rows.Count+1, textBoxGoods.Text, comboBoxProvider.Text, comboBoxStorage.Text, device.Descript, numericUpDownAmount.Value, numericUpDownPrice.Value, Convert.ToDateTime(dateTimePickerDelivery.Text) + DateTime.Now.TimeOfDay, comboBoxCategory.Text);
         }
 
 
@@ -406,8 +390,9 @@ namespace BaseShopGadgets
                 {
                     dateTimeOfDelivery = DateTime.Parse(dataGrViewDeliveryArchiv.Rows[i].Cells[8].Value.ToString());
                     timeSpanTemp = currentDateTime.Subtract(dateTimeOfDelivery);
-                    if (timeSpanTemp > timeActivityOfRow & dataGrViewDeliveryArchiv.Rows[i].ReadOnly == false)
-                        dataGrViewDeliveryArchiv.Rows[i].ReadOnly = true;
+                    
+                    if (timeSpanTemp > timeActivityOfRow)
+                         dataGrViewDeliveryArchiv.Rows[i].ReadOnly = true;
                 }
             }
 
