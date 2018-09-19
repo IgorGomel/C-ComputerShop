@@ -36,6 +36,8 @@ namespace BaseShopGadgets
 
         private void FormGoods_Load(object sender, EventArgs e)
         {
+            // TODO: данная строка кода позволяет загрузить данные в таблицу "modelBaseShopDataSet1.Categories". При необходимости она может быть перемещена или удалена.
+            this.categoriesTableAdapter.Fill(this.modelBaseShopDataSet1.Categories);
             categoryIQuer = Form1.db.TableCategoryes;
             deviceIQuer = Form1.db.TableDevices;
 
@@ -143,6 +145,21 @@ namespace BaseShopGadgets
         //    this.formGoodsChange.comboBoxCategoryCh.Text = this.dataGridViewGoods.CurrentRow.Cells[2].Value.ToString();
         //    this.formGoodsChange.textBoxPriceCh.Text = this.dataGridViewGoods.CurrentRow.Cells[3].Value.ToString();
         //    this.formGoodsChange.textBoxDescriptCh.Text = this.dataGridViewGoods.CurrentRow.Cells[4].Value.ToString();
+        }
+
+        private void comboBoxCategory_TextChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dataGridViewGoods.RowCount; i++)
+                dataGridViewGoods.Rows[i].Visible = true;
+
+            for (int i = 0; i < dataGridViewGoods.RowCount; i++)
+            {
+                if (Expansion.ContainsWithoutRegister(dataGridViewGoods.Rows[i].Cells[3].Value.ToString(), comboBoxCategory.Text, StringComparison.OrdinalIgnoreCase) == true)
+                    dataGridViewGoods.Rows[i].Visible = true;
+                else
+                    dataGridViewGoods.Rows[i].Visible = false;
+            }
+
         }
     }
     

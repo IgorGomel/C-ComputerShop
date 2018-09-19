@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGoods));
             this.toolStripGoods = new System.Windows.Forms.ToolStrip();
             this.BtnAdd = new System.Windows.Forms.ToolStripButton();
@@ -41,8 +42,14 @@
             this.Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Describe = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.comboBoxCategory = new System.Windows.Forms.ComboBox();
+            this.modelBaseShopDataSet1 = new BaseShopGadgets.ModelBaseShopDataSet1();
+            this.categoriesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.categoriesTableAdapter = new BaseShopGadgets.ModelBaseShopDataSet1TableAdapters.CategoriesTableAdapter();
             this.toolStripGoods.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGoods)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.modelBaseShopDataSet1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.categoriesBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripGoods
@@ -147,11 +154,38 @@
             this.Price.Name = "Price";
             this.Price.Width = 55;
             // 
+            // comboBoxCategory
+            // 
+            this.comboBoxCategory.DataSource = this.categoriesBindingSource;
+            this.comboBoxCategory.DisplayMember = "Name";
+            this.comboBoxCategory.FormattingEnabled = true;
+            this.comboBoxCategory.Location = new System.Drawing.Point(13, 367);
+            this.comboBoxCategory.Name = "comboBoxCategory";
+            this.comboBoxCategory.Size = new System.Drawing.Size(166, 21);
+            this.comboBoxCategory.TabIndex = 2;
+            this.comboBoxCategory.ValueMember = "Name";
+            this.comboBoxCategory.TextChanged += new System.EventHandler(this.comboBoxCategory_TextChanged);
+            // 
+            // modelBaseShopDataSet1
+            // 
+            this.modelBaseShopDataSet1.DataSetName = "ModelBaseShopDataSet1";
+            this.modelBaseShopDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // categoriesBindingSource
+            // 
+            this.categoriesBindingSource.DataMember = "Categories";
+            this.categoriesBindingSource.DataSource = this.modelBaseShopDataSet1;
+            // 
+            // categoriesTableAdapter
+            // 
+            this.categoriesTableAdapter.ClearBeforeFill = true;
+            // 
             // FormGoods
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(742, 363);
+            this.ClientSize = new System.Drawing.Size(742, 404);
+            this.Controls.Add(this.comboBoxCategory);
             this.Controls.Add(this.dataGridViewGoods);
             this.Controls.Add(this.toolStripGoods);
             this.Name = "FormGoods";
@@ -160,6 +194,8 @@
             this.toolStripGoods.ResumeLayout(false);
             this.toolStripGoods.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGoods)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.modelBaseShopDataSet1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.categoriesBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -179,5 +215,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Category;
         private System.Windows.Forms.DataGridViewTextBoxColumn Describe;
         private System.Windows.Forms.DataGridViewTextBoxColumn Price;
+        private System.Windows.Forms.ComboBox comboBoxCategory;
+        private ModelBaseShopDataSet1 modelBaseShopDataSet1;
+        private System.Windows.Forms.BindingSource categoriesBindingSource;
+        private ModelBaseShopDataSet1TableAdapters.CategoriesTableAdapter categoriesTableAdapter;
     }
 }

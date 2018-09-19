@@ -40,6 +40,8 @@
             this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Passport = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Discont = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.textBoxSearch = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVipClients)).BeginInit();
             this.SuspendLayout();
@@ -134,11 +136,30 @@
             this.Discont.Name = "Discont";
             this.Discont.Width = 60;
             // 
+            // textBoxSearch
+            // 
+            this.textBoxSearch.Location = new System.Drawing.Point(107, 267);
+            this.textBoxSearch.Name = "textBoxSearch";
+            this.textBoxSearch.Size = new System.Drawing.Size(136, 20);
+            this.textBoxSearch.TabIndex = 2;
+            this.textBoxSearch.TextChanged += new System.EventHandler(this.textBoxSearch_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 267);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(98, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Введіть прізвище:";
+            // 
             // FormVipClients
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(450, 262);
+            this.ClientSize = new System.Drawing.Size(450, 303);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBoxSearch);
             this.Controls.Add(this.dataGridViewVipClients);
             this.Controls.Add(this.toolStrip1);
             //this.Name = "FormVipClients";
@@ -165,5 +186,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn LastName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Passport;
         private System.Windows.Forms.DataGridViewTextBoxColumn Discont;
+        private System.Windows.Forms.TextBox textBoxSearch;
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -116,5 +116,19 @@ namespace BaseShopGadgets
             this.businessLogicVipClient.DeleteVipClientFromDataGridView += _Delete_VipClients_From_DataGridView;
             this.businessLogicVipClient.DeleteVipClientFromRepozitory += _Delete_VipClients_From_Repozitory;
         }
+
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dataGridViewVipClients.RowCount; i++)
+                dataGridViewVipClients.Rows[i].Visible = true;
+
+            for (int i = 0; i < dataGridViewVipClients.RowCount; i++)
+            {
+                if (Expansion.ContainsWithoutRegister(dataGridViewVipClients.Rows[i].Cells[3].Value.ToString(), textBoxSearch.Text, StringComparison.OrdinalIgnoreCase) == true)
+                    dataGridViewVipClients.Rows[i].Visible = true;
+                else
+                    dataGridViewVipClients.Rows[i].Visible = false;
+            }
+        }
     }
 }

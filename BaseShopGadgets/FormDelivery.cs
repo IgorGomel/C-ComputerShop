@@ -19,7 +19,7 @@ namespace BaseShopGadgets
         static Timer timer;
         TimeSpan timeSpanTemp;
 
-        TimeSpan timeActivityOfRow = new TimeSpan(0, 0 , 25);
+        TimeSpan timeActivityOfRow = new TimeSpan(36, 0 , 0);
         DateTime dateTimeOfDelivery;
         DateTime currentDateTime;
         Decimal oldAmount;
@@ -148,7 +148,14 @@ namespace BaseShopGadgets
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            try
+            {
+                this.Close();
+            }
+            catch
+            {
+                this.Close();
+            }
         }
 
         public void _Add_Delivery_To_Base_Assortment()

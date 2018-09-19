@@ -109,7 +109,7 @@ namespace BaseShopGadgets
         private void BtnNewDelivery_Click(object sender, EventArgs e)
         {
             formDelivery = new FormDelivery();
-            formDelivery.ShowDialog();
+            formDelivery.Show();
             //FormDelivery.timer = new Timer(5);
         }
 
@@ -262,7 +262,7 @@ namespace BaseShopGadgets
 
         private void comboBoxSearchByCategory_TextChanged(object sender, EventArgs e)
         {
-
+            
             for (int i = 0; i < MainDataGridView.RowCount; i++)
                 MainDataGridView.Rows[i].Visible = true;
 

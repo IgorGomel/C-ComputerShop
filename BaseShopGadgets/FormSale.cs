@@ -34,7 +34,9 @@ namespace BaseShopGadgets
         IQueryable<Assortment> assortIQuer;
         IQueryable<Device> deviceIQuer;
         IQueryable<Category> categoryIQuer;
+        IQueryable<Discount> discountIQuer;
         IQueryable<Device> oldDeviceIQuer;
+        Discount discount;
         SalesArchiv salesArchiv;
         Assortment assortment;
         Assortment oldAssortment;
@@ -87,26 +89,46 @@ namespace BaseShopGadgets
                                      //якщо нема - виводимо повідомлення
             {
                 saleArchIQuer = Form1.db.TableySalesArchiv;
-                //deviceIQuer = Form1.db.TableDevices;
-                //storageIQuer = Form1.db.TableStorages;
-
-
+                
                 bool hasElements = saleArchIQuer.Any();
                 if (hasElements == false)
                     Form1.db.Database.ExecuteSqlCommand("TRUNCATE TABLE dbo.SalesArchivs");
 
-                Form1.db.TableySalesArchiv.Add(new SalesArchiv()
-                {
 
-                    IdDevice = device.Id,
-                    IdStorage = storage.Id,
-                    Describe = device.Descript,  //Convert.ToString(description),
-                    Amount = (int)numericUpDownAmount.Value,
-                    Price = (int)numericUpDownPrice.Value,
-                    Date = Convert.ToDateTime(dateTimePickerSale.Text) + DateTime.Now.TimeOfDay
+                if (checkBoxDiscountOffOn.Checked == false)
+                {                    
+                    Form1.db.TableySalesArchiv.Add(new SalesArchiv()
+                    {
+
+                        IdDevice = device.Id,
+                        IdStorage = storage.Id,
+                        Describe = device.Descript,  
+                        Amount = (int)numericUpDownAmount.Value,
+                        Price = (int)numericUpDownPrice.Value,
+                        Date = Convert.ToDateTime(dateTimePickerSale.Text) + DateTime.Now.TimeOfDay
+                    }
+                       );
+                    Form1.db.SaveChanges();
                 }
-                   );
-                Form1.db.SaveChanges();
+                else
+                {
+                    discountIQuer = Form1.db.TableDiscounts;
+                    var tempDiscount = discountIQuer.Where(d => string.Equals(d.Name, comboBoxDiscount.Text));
+                    discount = tempDiscount.Single();
+
+                    Form1.db.TableySalesArchiv.Add(new SalesArchiv()
+                    {
+
+                        IdDevice = device.Id,
+                        IdStorage = storage.Id,
+                        Describe = device.Descript,
+                        Amount = (int)numericUpDownAmount.Value,
+                        Price = (int)numericUpDownPrice.Value - ((int)numericUpDownPrice.Value/100*discount.Percent),
+                        Date = Convert.ToDateTime(dateTimePickerSale.Text) + DateTime.Now.TimeOfDay
+                    }
+                       );
+                    Form1.db.SaveChanges();
+                }
             }
             else
                 MessageBox.Show("Такої продукції на складі нема!");
@@ -180,7 +202,11 @@ namespace BaseShopGadgets
                                      //якщо нема - нічого не робимо
             {
                 Max = saleArchIQuer.Max(d => d.Id);
-                dataGridViewSales.Rows.Add(Max, dataGridViewSales.RowCount + 1, textBoxGoods.Text, comboBoxStorage.Text, device.Descript, numericUpDownAmount.Value, numericUpDownPrice.Value, Convert.ToDateTime(dateTimePickerSale.Text) + DateTime.Now.TimeOfDay, comboBoxCategory.Text);
+
+                if(checkBoxDiscountOffOn.Checked==true)
+                   dataGridViewSales.Rows.Add(Max, dataGridViewSales.RowCount + 1, textBoxGoods.Text, comboBoxStorage.Text, device.Descript, numericUpDownAmount.Value, numericUpDownPrice.Value - (numericUpDownPrice.Value/100*discount.Percent), Convert.ToDateTime(dateTimePickerSale.Text) + DateTime.Now.TimeOfDay, comboBoxCategory.Text);
+                else
+                    dataGridViewSales.Rows.Add(Max, dataGridViewSales.RowCount + 1, textBoxGoods.Text, comboBoxStorage.Text, device.Descript, numericUpDownAmount.Value, numericUpDownPrice.Value, Convert.ToDateTime(dateTimePickerSale.Text) + DateTime.Now.TimeOfDay, comboBoxCategory.Text);
             }
         }
 
@@ -237,6 +263,8 @@ namespace BaseShopGadgets
 
         private void FormSale_Load(object sender, EventArgs e)
         {
+            // TODO: данная строка кода позволяет загрузить данные в таблицу "modelBaseShopDataSet1.Discounts". При необходимости она может быть перемещена или удалена.
+            this.discountsTableAdapter.Fill(this.modelBaseShopDataSet1.Discounts);
             //this.comboBoxCategory.SelectedValueChanged += changeComboBoxValue;
             // TODO: данная строка кода позволяет загрузить данные в таблицу "modelBaseShopDataSet.Storages". При необходимости она может быть перемещена или удалена.
             this.storagesTableAdapter.Fill(this.modelBaseShopDataSet.Storages);
@@ -267,6 +295,8 @@ namespace BaseShopGadgets
             timer.Interval = 5000;
             timer.Tick += _DataGridArchiv_Process;
             timer.Start();
+
+            comboBoxDiscount.Enabled = false;
         }
 
         private void _DataGridArchiv_Process(Object sender, EventArgs e)
@@ -429,10 +459,8 @@ namespace BaseShopGadgets
 
         private void _Change_Sale_In_BaseSalesArchiv()
         {
-            //storageIQuer = Form1.db.TableStorages;
-            //var tempStore = storageIQuer.Where(d => string.Equals(d.Id, comboBoxStorage.Text));
-            //storage = tempStore.Single();
-
+            
+            
             //в змінну number помістимо Id запису
             number = Convert.ToInt32(dataGridViewSales.CurrentRow.Cells[0].Value);
 
@@ -441,7 +469,16 @@ namespace BaseShopGadgets
             salesArchiv.IdStorage = storage.Id;
             salesArchiv.Describe = device.Descript;
             salesArchiv.Amount = Convert.ToInt32(numericUpDownAmount.Value);
-            salesArchiv.Price = Convert.ToInt32(numericUpDownPrice.Value);
+            if (checkBoxDiscountOffOn.Checked == false)
+                salesArchiv.Price = device.Price;
+            else
+            {
+                discountIQuer = Form1.db.TableDiscounts;
+                var tempDiscount = discountIQuer.Where(d => string.Equals(d.Name, comboBoxDiscount.Text));
+                discount = tempDiscount.Single();
+
+                salesArchiv.Price = device.Price - (device.Price/100*discount.Percent);
+            }
             salesArchiv.Date = dateTimePickerSale.Value;
 
             Form1.db.SaveChanges();
@@ -555,7 +592,10 @@ namespace BaseShopGadgets
             dataGridViewSales[3, row].Value = comboBoxStorage.Text;
             dataGridViewSales[4, row].Value = device.Descript;
             dataGridViewSales[5, row].Value = numericUpDownAmount.Value;
-            dataGridViewSales[6, row].Value = numericUpDownPrice.Value;
+            if(checkBoxDiscountOffOn.Checked==false)
+                dataGridViewSales[6, row].Value = device.Price;
+            else
+                dataGridViewSales[6, row].Value = device.Price - (device.Price/100*discount.Percent);
             dataGridViewSales[7, row].Value = dateTimePickerSale.Value;
             dataGridViewSales[8, row].Value = comboBoxCategory.Text;
         }
@@ -772,6 +812,14 @@ namespace BaseShopGadgets
             //}
 
             //textBoxGoods.AutoCompleteCustomSource = sourseForBaseRepoz;
+        }
+
+        private void checkBoxDiscountOffOn_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxDiscountOffOn.Checked == true)
+                comboBoxDiscount.Enabled = true;
+            else
+                comboBoxDiscount.Enabled = false;
         }
 
         //private void btnClose_Click(object sender, EventArgs e)

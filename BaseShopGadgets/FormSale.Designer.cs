@@ -66,6 +66,12 @@
             this.modelBaseShopDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.categoriesTableAdapter = new BaseShopGadgets.ModelBaseShopDataSet1TableAdapters.CategoriesTableAdapter();
             this.storagesTableAdapter = new BaseShopGadgets.ModelBaseShopDataSetTableAdapters.StoragesTableAdapter();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.comboBoxDiscount = new System.Windows.Forms.ComboBox();
+            this.discountsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label7 = new System.Windows.Forms.Label();
+            this.checkBoxDiscountOffOn = new System.Windows.Forms.CheckBox();
+            this.discountsTableAdapter = new BaseShopGadgets.ModelBaseShopDataSet1TableAdapters.DiscountsTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.categoriesBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.modelBaseShopDataSet1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.modelBaseShopDataSet1)).BeginInit();
@@ -78,6 +84,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSales)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.modelBaseShopDataSetBindingSource)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.discountsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBoxCategory
@@ -137,6 +145,11 @@
             // numericUpDownAmount
             // 
             this.numericUpDownAmount.Location = new System.Drawing.Point(159, 102);
+            this.numericUpDownAmount.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.numericUpDownAmount.Name = "numericUpDownAmount";
             this.numericUpDownAmount.Size = new System.Drawing.Size(44, 20);
             this.numericUpDownAmount.TabIndex = 2;
@@ -144,6 +157,11 @@
             // numericUpDownPrice
             // 
             this.numericUpDownPrice.Location = new System.Drawing.Point(159, 128);
+            this.numericUpDownPrice.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
             this.numericUpDownPrice.Name = "numericUpDownPrice";
             this.numericUpDownPrice.Size = new System.Drawing.Size(44, 20);
             this.numericUpDownPrice.TabIndex = 3;
@@ -324,16 +342,16 @@
             // 
             this.groupBox2.Controls.Add(this.btnChange);
             this.groupBox2.Controls.Add(this.btnDelete);
-            this.groupBox2.Location = new System.Drawing.Point(7, 227);
+            this.groupBox2.Location = new System.Drawing.Point(7, 311);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(196, 100);
+            this.groupBox2.Size = new System.Drawing.Size(196, 56);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Редагування продажів";
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(103, 30);
+            this.btnChange.Location = new System.Drawing.Point(103, 19);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 23);
             this.btnChange.TabIndex = 1;
@@ -343,7 +361,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(6, 30);
+            this.btnDelete.Location = new System.Drawing.Point(6, 19);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 0;
@@ -364,11 +382,63 @@
             // 
             this.storagesTableAdapter.ClearBeforeFill = true;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.comboBoxDiscount);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.checkBoxDiscountOffOn);
+            this.groupBox3.Location = new System.Drawing.Point(7, 227);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(196, 78);
+            this.groupBox3.TabIndex = 15;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Встановлення знижки";
+            // 
+            // comboBoxDiscount
+            // 
+            this.comboBoxDiscount.DataSource = this.discountsBindingSource;
+            this.comboBoxDiscount.DisplayMember = "Name";
+            this.comboBoxDiscount.FormattingEnabled = true;
+            this.comboBoxDiscount.Location = new System.Drawing.Point(9, 46);
+            this.comboBoxDiscount.Name = "comboBoxDiscount";
+            this.comboBoxDiscount.Size = new System.Drawing.Size(145, 21);
+            this.comboBoxDiscount.TabIndex = 2;
+            this.comboBoxDiscount.ValueMember = "Name";
+            // 
+            // discountsBindingSource
+            // 
+            this.discountsBindingSource.DataMember = "Discounts";
+            this.discountsBindingSource.DataSource = this.modelBaseShopDataSet1BindingSource;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 19);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(106, 13);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Встановити знижку";
+            // 
+            // checkBoxDiscountOffOn
+            // 
+            this.checkBoxDiscountOffOn.AutoSize = true;
+            this.checkBoxDiscountOffOn.Location = new System.Drawing.Point(118, 19);
+            this.checkBoxDiscountOffOn.Name = "checkBoxDiscountOffOn";
+            this.checkBoxDiscountOffOn.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxDiscountOffOn.TabIndex = 0;
+            this.checkBoxDiscountOffOn.UseVisualStyleBackColor = true;
+            this.checkBoxDiscountOffOn.CheckedChanged += new System.EventHandler(this.checkBoxDiscountOffOn_CheckedChanged);
+            // 
+            // discountsTableAdapter
+            // 
+            this.discountsTableAdapter.ClearBeforeFill = true;
+            // 
             // FormSale
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(846, 379);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBoxGoods);
@@ -400,6 +470,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSales)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.modelBaseShopDataSetBindingSource)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.discountsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -444,5 +517,11 @@
         private ModelBaseShopDataSet1TableAdapters.CategoriesTableAdapter categoriesTableAdapter;
         private System.Windows.Forms.BindingSource storagesBindingSource;
         private ModelBaseShopDataSetTableAdapters.StoragesTableAdapter storagesTableAdapter;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ComboBox comboBoxDiscount;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox checkBoxDiscountOffOn;
+        private System.Windows.Forms.BindingSource discountsBindingSource;
+        private ModelBaseShopDataSet1TableAdapters.DiscountsTableAdapter discountsTableAdapter;
     }
 }

@@ -222,7 +222,7 @@
             // 
             this.numericUpDownAmount.Location = new System.Drawing.Point(183, 133);
             this.numericUpDownAmount.Maximum = new decimal(new int[] {
-            10000,
+            100000,
             0,
             0,
             0});
@@ -234,7 +234,7 @@
             // 
             this.numericUpDownPrice.Location = new System.Drawing.Point(183, 159);
             this.numericUpDownPrice.Maximum = new decimal(new int[] {
-            1000000,
+            10000000,
             0,
             0,
             0});
